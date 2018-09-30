@@ -2,5 +2,9 @@
     <string name="app_name">Chat App</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_login">Login</string>
-    <string name="prompt_send">Login</string>
+    <string name="send">Sign in to chat!</string>
+    <string name="fill_fields">Please fill both fields above</string>
+    <string name="register">Register now!</string>
+    <string name="or">-- OR --</string>
+    <string name="log_in">Log In!</string>
 </resources>
