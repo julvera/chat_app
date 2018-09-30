@@ -6,31 +6,52 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     final static private String TAG = MainActivity.class.getSimpleName();
+    @BindView(R.id.login) EditText login;
+    @BindView(R.id.password) EditText password;
+    @BindView(R.id.check_login) Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(TAG,"onCreate");
-//        username.setBackgroundColor(getResources().getColor(R.color.something));
+        Log.i(TAG, "onCreate");
+        ButterKnife.bind(this);
+        login.setBackgroundColor(getResources().getColor(R.color.something));
+        button.setOnClickListener(this);
+        password.setOnClickListener(this);
+    }
 
-        Button button = findViewById(R.id.ckeck_login);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                EditText login = findViewById(R.id.login);
-                EditText password = findViewById(R.id.password);
-                String login_value = login.getText().toString();
-                String password_value = password.getText().toString();
+    @Override public void onClick(View v) {
+        String login_value = login.getText().toString();
+        String password_value = password.getText().toString();
+
+        switch(v.getId()) {
+            case R.id.check_login:
+                if(login_value.isEmpty() || password_value.isEmpty()){
+                    TextView Error_pop = findViewById(R.id.Error_pop);
+                    Error_pop.setVisibility(View.VISIBLE);
+                    break;
+                }
                 Toast.makeText(
-                        MainActivity.this, "Hi " + login_value, Toast.LENGTH_SHORT
+                    MainActivity.this,
+                    "Hi " + login_value + "sweet password " + password_value,
+                    Toast.LENGTH_SHORT
                 ).show();
-            }
-        });
+                break;
+            default:
+                //should never get here
+                break;
+        }
+
     }
 
     @Override
