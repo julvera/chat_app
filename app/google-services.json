@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1008189597349",
-    "firebase_url": "https://thatchat-1793a.firebaseio.com",
-    "project_id": "thatchat-1793a",
-    "storage_bucket": "thatchat-1793a.appspot.com"
+    "project_number": "317482384550",
+    "firebase_url": "https://chat-app-f7685.firebaseio.com",
+    "project_id": "chat-app-f7685",
+    "storage_bucket": "chat-app-f7685.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1008189597349:android:1750a0aadd0e9290",
+        "mobilesdk_app_id": "1:317482384550:android:667f55b1fc2f822f",
         "android_client_info": {
-          "package_name": "com.thatchat"
+          "package_name": "com.jvera.chat_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1008189597349-h9gp2cqhiee9atev0crjen2gdla9o9uq.apps.googleusercontent.com",
+          "client_id": "317482384550-c7v2b6k02m6krim1vo0kphlaeuqb4s4u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBaWnHcDtAT3MIrAoPIwgYbWKPF7NlbC5k"
+          "current_key": "AIzaSyCmhbpTHcRpw64oruBEEIhQ5tYkQmRccLE"
         }
       ],
       "services": {
