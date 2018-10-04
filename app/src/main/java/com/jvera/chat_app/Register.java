@@ -102,6 +102,8 @@ public class Register extends AppCompatActivity {
                         if (!obj.has(user)) {
                             reference.child(user).child("password").setValue(pass);
                             helper.toast_error(Register.this, constants.txt_registration_successful);
+                            startActivity(new Intent(Register.this, Login.class)); // if registration successful come back to Login Page
+
                         } else {
                             helper.toast_error(Register.this, constants.txt_error_user_exists);
                         }
