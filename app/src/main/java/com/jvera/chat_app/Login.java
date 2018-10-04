@@ -52,8 +52,6 @@ public class Login extends AppCompatActivity {
                 break;
 
             case R.id.guest_btn:
-                Log.i(TAG, "Guest button click");
-
                 startActivity(new Intent(Login.this, Guest.class));
                 break;
 

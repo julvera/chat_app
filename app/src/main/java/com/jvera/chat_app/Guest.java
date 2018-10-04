@@ -29,15 +29,14 @@ import butterknife.OnClick;
 public class Guest extends AppCompatActivity {
 
     private static final String TAG = "Debug" ;
-    @BindView(R.id.pseudo_guest) EditText pseudo_guest;
     private static final int guest_password_nbr = new Random().nextInt(100); //random between 0 and 100
-
+    @BindView(R.id.pseudo_guest) EditText pseudo_guest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest);
-        Log.i(TAG, "onCreate Register");
+        Log.i(TAG, "onCreate Guest");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
     }
@@ -123,5 +122,35 @@ public class Guest extends AppCompatActivity {
                 response_listener,
                 error_listener
         );
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart Guest");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"onResume Guest");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause Guest");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG,"onStop Guest");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy Guest");
     }
 }
