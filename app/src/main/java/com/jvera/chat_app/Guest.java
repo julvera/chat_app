@@ -25,12 +25,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 public class Guest extends AppCompatActivity {
 
     private static final String TAG = "Debug" ;
     @BindView(R.id.pseudo_guest) EditText pseudo_guest;
-    private static final Random r = new Random();
-    private static final int guest_password_nbr = r.nextInt(100); //random number between 0 and 100
+    private static final int guest_password_nbr = new Random().nextInt(100); //random between 0 and 100
 
 
     @Override
@@ -46,8 +46,9 @@ public class Guest extends AppCompatActivity {
     public void setOnClickRegisterEvents(View v) {
         switch(v.getId()) {
             case R.id.login_guest_btn:
-                register_click_action();
-                startActivity(new Intent(Guest.this, Users.class));
+                if (register_click_action()) {
+                    startActivity(new Intent(Guest.this, Users.class));
+                }
                 break;
 
             default:
@@ -56,8 +57,9 @@ public class Guest extends AppCompatActivity {
         }
     }
 
-    private void register_click_action() {
+    private boolean register_click_action() {
         String pseudo_user = pseudo_guest.getText().toString();
+        boolean ret = false;
 
         if (pseudo_user.equals("")) {
             pseudo_guest.setError(constants.txt_error_field_required);
@@ -69,7 +71,9 @@ public class Guest extends AppCompatActivity {
             StringRequest request = db_add_credentials(pseudo_user);
             RequestQueue rQueue = Volley.newRequestQueue(Guest.this);
             rQueue.add(request);
+            ret = true;
         }
+        return ret;
     }
 
     private StringRequest db_add_credentials(final String guest){

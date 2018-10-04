@@ -21,7 +21,6 @@ public class constants {
     protected static String api_url_users_json = "https://chat-app-f7685.firebaseio.com//users.json";
     protected static String api_url_users = "https://chat-app-f7685.firebaseio.com//users";
 
-
     protected static String api_url_guests = "https://chat-app-f7685.firebaseio.com//guests";
     protected static String api_url_guests_json = "https://chat-app-f7685.firebaseio.com//guests.json";
 
