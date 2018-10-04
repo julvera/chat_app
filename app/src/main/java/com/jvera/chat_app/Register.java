@@ -52,7 +52,9 @@ public class Register extends AppCompatActivity {
                 break;
 
             case R.id.register_btn:
-                register_click_action();
+                if (register_click_action()) {
+                    startActivity(new Intent(Register.this, Login.class));
+                }
                 break;
 
             default:
@@ -61,9 +63,10 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    private void register_click_action() {
+    private boolean register_click_action() {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString();
+        boolean ret = false;
 
         if (user.equals("")) {
             login.setError(constants.txt_error_field_required);
@@ -79,7 +82,9 @@ public class Register extends AppCompatActivity {
             StringRequest request = db_add_credentials(user, pass);
             RequestQueue rQueue = Volley.newRequestQueue(Register.this);
             rQueue.add(request);
+            ret = true;
         }
+        return ret;
     }
 
     private StringRequest db_add_credentials(final String user, final String pass){
