@@ -31,10 +31,6 @@ public class Login extends AppCompatActivity {
     final static private String TAG = Login.class.getSimpleName();
     @BindView(R.id.login) EditText login;
     @BindView(R.id.password) TextInputLayout password;
-    @BindView(R.id.login_btn) Button login_btn;
-    @BindView(R.id.register_btn) Button register_btn;
-    @BindView(R.id.guest_btn) Button guest_btn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +40,7 @@ public class Login extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.register_btn, R.id.login_btn,R.id.guest_btn})
+    @OnClick({R.id.register_btn, R.id.login_btn, R.id.guest_btn})
     public void setOnClickLoginEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
@@ -71,12 +67,12 @@ public class Login extends AppCompatActivity {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString(); //IDE whining for no damn reason
         TextView Error_pop = findViewById(R.id.Error_pop);
-        Error_pop.setVisibility(View.INVISIBLE); // Just for appearance on 2nd attempt with usr & pass
 
         if(user.isEmpty() || pass.isEmpty()){
             Error_pop.setVisibility(View.VISIBLE);
         }
         else {
+            Error_pop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
             StringRequest request = db_check_credentials(user, pass);
             RequestQueue rQueue = Volley.newRequestQueue(Login.this);
             rQueue.add(request);
