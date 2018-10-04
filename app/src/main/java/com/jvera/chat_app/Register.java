@@ -1,6 +1,5 @@
 package com.jvera.chat_app;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,16 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,76 +53,28 @@ public class Register extends AppCompatActivity {
     }
 
     private boolean register_click_action() {
+        boolean ret = false;
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString();
-        boolean ret = false;
+        String invalid_user_reason = helper.check_username_validity(user);
+        String invalid_pass_reason = helper.check_password_validity(user);
 
-        if (user.equals("")) {
-            login.setError(constants.txt_error_field_required);
-        } else if(pass.equals("")){
-            password.setError(constants.txt_error_field_required);
-        } else if (!user.matches("[A-Za-z0-9]+")) {
-            login.setError(constants.txt_error_alpha_or_number_only);
-        } else if (user.length() < 5) {
-            login.setError(constants.txt_error_short_username);
-        } else if (pass.length() < 5) {
-            password.setError(constants.txt_error_short_password);
+        if (!"".equals(invalid_user_reason)) {
+            login.setError(invalid_user_reason);
+        } else if (!"".equals(invalid_pass_reason)) {
+            password.setError(invalid_pass_reason);
         } else {
-            StringRequest request = db_add_credentials(user, pass);
+            StringRequest request = helper.db_add_credentials(
+                Register.this,
+                constants.api_url_users,
+                user,
+                pass
+            );
             RequestQueue rQueue = Volley.newRequestQueue(Register.this);
             rQueue.add(request);
             ret = true;
         }
         return ret;
-    }
-
-    private StringRequest db_add_credentials(final String user, final String pass){
-        final ProgressDialog prog_dial = new ProgressDialog(Register.this);
-        prog_dial.setMessage("Loading...");
-        prog_dial.show();
-
-        Response.Listener<String> response_listener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                Firebase reference = new Firebase(constants.api_url_users);
-
-                if (s.equals("null")) {
-                    reference.child(user).child("password").setValue(pass);
-                    helper.toast_error(Register.this, constants.txt_registration_successful);
-                } else {
-                    try {
-                        JSONObject obj = new JSONObject(s);
-
-                        if (!obj.has(user)) {
-                            reference.child(user).child("password").setValue(pass);
-                            helper.toast_error(Register.this, constants.txt_registration_successful);
-                            startActivity(new Intent(Register.this, Login.class)); // if registration successful come back to Login Page
-
-                        } else {
-                            helper.toast_error(Register.this, constants.txt_error_user_exists);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                prog_dial.dismiss();
-            }
-        };
-
-        Response.ErrorListener error_listener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                System.out.println("" + volleyError);
-                prog_dial.dismiss();
-            }
-        };
-
-        return new StringRequest(
-            Request.Method.GET,
-            constants.api_url_users_json,
-            response_listener,
-            error_listener
-        );
     }
 
     @Override

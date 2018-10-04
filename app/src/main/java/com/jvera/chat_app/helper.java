@@ -16,7 +16,8 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-//@SuppressWarnings("WeakerAccess")
+
+@SuppressWarnings("WeakerAccess")
 public class helper {
     private static final Random r = new Random();
     private static final int guest_password_nbr = r.nextInt(100); //random between 0 and 100
@@ -29,8 +30,8 @@ public class helper {
         ).show();
     }
 
-    protected static StringRequest db_add_credentials (final Context context, final String user,
-                                                       final String pass){
+    protected static StringRequest db_add_credentials(final Context context, final String base_url,
+                                                      final String user, final String pass){
         final ProgressDialog prog_dial = new ProgressDialog(context);
         prog_dial.setMessage("Loading...");
         prog_dial.show();
@@ -38,20 +39,20 @@ public class helper {
         Response.Listener<String> response_listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Firebase reference = new Firebase(constants.api_url_users);
+                Firebase reference = new Firebase(base_url);
 
                 if (s.equals("null")) {
-                    set_user_password_values(reference, user, pass);
+                    set_user_guest_password(reference, user, pass);
                     helper.toast_error(context, constants.txt_registration_successful);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
-                            set_user_password_values(reference, user, pass);
+                            set_user_guest_password(reference, user, pass);
                             helper.toast_error(context, constants.txt_registration_successful);
                             // if registration successful, go back to Login Page
-                            startActivity(new Intent(context, Login.class));
+                            context.startActivity(new Intent(context, Login.class));
 
                         } else {
                             helper.toast_error(context, constants.txt_error_user_exists);
@@ -74,18 +75,40 @@ public class helper {
 
         return new StringRequest(
                 Request.Method.GET,
-                constants.api_url_users_json,
+                base_url + ".json",
                 response_listener,
                 error_listener
         );
     }
 
-    private static void set_user_password_values (Firebase reference, final String user,
+    private static void set_user_guest_password(Firebase reference, final String user,
                                                   final String pass) {
+        String password;
         if (pass == null) {
-            reference.child(user).child("password").setValue("G_" + user + "_" + guest_password_nbr);
-        } else {
-            reference.child(user).child("password").setValue(pass);
+            password = "G_" + user + "_" + guest_password_nbr;
+        } else {password = pass;}
+        reference.child(user).child("password").setValue(password);
+    }
+
+    protected static String check_username_validity(final String username) {
+        String error_message = "";
+        if (username.equals("")) {
+            error_message = constants.txt_error_field_required;
+        } else if (!username.matches("[A-Za-z0-9]+")) {
+            error_message = constants.txt_error_alpha_or_number_only;
+        } else if (username.length() < 5) {
+            error_message = constants.txt_error_short_username;
         }
+        return error_message;
+    }
+
+    protected static String check_password_validity(final String password) {
+        String error_message = "";
+        if (password.equals("")) {
+            error_message = constants.txt_error_field_required;
+        } else if (password.length() < 5) {
+            error_message = constants.txt_error_short_password;
+        }
+        return error_message;
     }
 }
