@@ -33,6 +33,8 @@ public class Login extends AppCompatActivity {
     @BindView(R.id.password) TextInputLayout password;
     @BindView(R.id.login_btn) Button login_btn;
     @BindView(R.id.register_btn) Button register_btn;
+    @BindView(R.id.guest_btn) Button guest_btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class Login extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.register_btn, R.id.login_btn})
+    @OnClick({R.id.register_btn, R.id.login_btn,R.id.guest_btn})
     public void setOnClickLoginEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
@@ -51,6 +53,12 @@ public class Login extends AppCompatActivity {
 
             case R.id.register_btn:
                 startActivity(new Intent(Login.this, Register.class));
+                break;
+
+            case R.id.guest_btn:
+                Log.i(TAG, "Guest button click");
+
+                startActivity(new Intent(Login.this, Guest.class));
                 break;
 
             default:
