@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Guest extends AppCompatActivity {
+public class Guests extends AppCompatActivity {
 
     private static final String TAG = "Debug" ;
     private static final int guest_password_nbr = new Random().nextInt(100); //random between 0 and 100
@@ -36,7 +36,7 @@ public class Guest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest);
-        Log.i(TAG, "onCreate Guest");
+        Log.i(TAG, "onCreate Guests");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
     }
@@ -46,7 +46,7 @@ public class Guest extends AppCompatActivity {
         switch(v.getId()) {
             case R.id.login_guest_btn:
                 if (register_click_action()) {
-                    startActivity(new Intent(Guest.this, Users.class));
+                    startActivity(new Intent(Guests.this, Users.class));
                 }
                 break;
 
@@ -68,7 +68,7 @@ public class Guest extends AppCompatActivity {
             pseudo_guest.setError(constants.txt_error_short_username);
         }  else {
             StringRequest request = db_add_credentials(pseudo_user);
-            RequestQueue rQueue = Volley.newRequestQueue(Guest.this);
+            RequestQueue rQueue = Volley.newRequestQueue(Guests.this);
             rQueue.add(request);
             ret = true;
         }
@@ -76,10 +76,9 @@ public class Guest extends AppCompatActivity {
     }
 
     private StringRequest db_add_credentials(final String guest){
-        final ProgressDialog prog_dial = new ProgressDialog(Guest.this);
+        final ProgressDialog prog_dial = new ProgressDialog(Guests.this);
         prog_dial.setMessage("Loading...");
         prog_dial.show();
-
 
         Response.Listener<String> response_listener = new Response.Listener<String>() {
             @Override
@@ -88,18 +87,18 @@ public class Guest extends AppCompatActivity {
 
                 if (s.equals("null")) {
                     reference.child(guest).child("password").setValue("G_"+guest+"_"+guest_password_nbr);
-                    helper.toast_error(Guest.this, constants.txt_registration_successful);
+                    helper.toast_error(Guests.this, constants.txt_registration_successful);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(guest)) {
                             reference.child(guest).child("password").setValue("G_"+guest+"_"+guest_password_nbr);
-                            helper.toast_error(Guest.this, constants.txt_registration_successful);
-                            startActivity(new Intent(Guest.this, Users.class)); // if registration successful come back to Login Page
+                            helper.toast_error(Guests.this, constants.txt_registration_successful);
+                            startActivity(new Intent(Guests.this, Users.class)); // if registration successful come back to Login Page
 
                         } else {
-                            helper.toast_error(Guest.this, constants.txt_error_user_exists);
+                            helper.toast_error(Guests.this, constants.txt_error_user_exists);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -127,30 +126,30 @@ public class Guest extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG,"onStart Guest");
+        Log.i(TAG,"onStart Guests");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"onResume Guest");
+        Log.i(TAG,"onResume Guests");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(TAG,"onPause Guest");
+        Log.i(TAG,"onPause Guests");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(TAG,"onStop Guest");
+        Log.i(TAG,"onStop Guests");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG,"onDestroy Guest");
+        Log.i(TAG,"onDestroy Guests");
     }
 }

@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No users found!"
+            android:text="@string/error_user_not_found"
             android:id="@+id/noUsersText"
             android:visibility="gone"/>
 

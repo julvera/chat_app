@@ -23,71 +23,75 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
 public class Users extends AppCompatActivity {
-    ListView usersList;
-    TextView noUsersText;
-    ArrayList<String> al = new ArrayList<>();
+
+    @BindView(R.id.usersList) ListView usersList;
+    @BindView(R.id.noUsersText) TextView noUsersText;
+
+    ArrayList<String> discussions_list = new ArrayList<>();
+    ProgressDialog prog_dial = new ProgressDialog(Users.this);
     int totalUsers = 0;
-    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
+        ButterKnife.bind(this);
 
-        usersList = (ListView)findViewById(R.id.usersList);
-        noUsersText = (TextView)findViewById(R.id.noUsersText);
-
-        pd = new ProgressDialog(Users.this);
-        pd.setMessage("Loading...");
-        pd.show();
-
-        String url = "https://chat-app-f7685.firebaseio.com//users.json";
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
-            @Override
-            public void onResponse(String s) {
-                doOnSuccess(s);
-            }
-        },new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                System.out.println("" + volleyError);
-            }
-        });
-
+        StringRequest request = db_get_discussions();
         RequestQueue rQueue = Volley.newRequestQueue(Users.this);
         rQueue.add(request);
 
         usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                UserDetails.chatWith = al.get(position);
+                UserDetails.chat_with = discussions_list.get(position);
                 startActivity(new Intent(Users.this, Chat.class));
             }
         });
     }
 
-    public void doOnSuccess(String s){
+    private StringRequest db_get_discussions(){
+        prog_dial.setMessage("Loading...");
+        prog_dial.show();
+        Response.Listener<String> response_listener = new Response.Listener<String>(){
+            @Override
+            public void onResponse(String s) {
+                get_contact_discussions(s);
+            }
+        };
+
+        Response.ErrorListener error_listener = new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                System.out.println("" + volleyError);
+            }
+        };
+
+        return new StringRequest(
+            Request.Method.GET,
+            constants.api_url_users_json,
+            response_listener,
+            error_listener
+        );
+    }
+
+    public void get_contact_discussions(String s){
         try {
             JSONObject obj = new JSONObject(s);
-
             Iterator i = obj.keys();
-            String key = "";
+            String key;
 
             while(i.hasNext()){
                 key = i.next().toString();
-
-                if(!key.equals(UserDetails.username)) {
-                    al.add(key);
-                }
-
+                if(!key.equals(UserDetails.username)) {discussions_list.add(key);}
                 totalUsers++;
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        } catch (JSONException e) {e.printStackTrace();}
 
         if(totalUsers <=1){
             noUsersText.setVisibility(View.VISIBLE);
@@ -96,9 +100,10 @@ public class Users extends AppCompatActivity {
         else{
             noUsersText.setVisibility(View.GONE);
             usersList.setVisibility(View.VISIBLE);
-            usersList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, al));
+            usersList.setAdapter(new ArrayAdapter<>(
+                    this, android.R.layout.simple_list_item_1, discussions_list
+            ));
         }
-
-        pd.dismiss();
+        prog_dial.dismiss();
     }
 }

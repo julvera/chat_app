@@ -6,9 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -20,47 +18,29 @@ import com.firebase.client.FirebaseError;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class Chat extends AppCompatActivity {
-    LinearLayout layout;
-    RelativeLayout layout_2;
-    ImageView sendButton;
-    EditText messageArea;
-    ScrollView scrollView;
-    Firebase reference1, reference2;
+    @BindView(R.id.layout1) LinearLayout layout;
+    @BindView(R.id.messageArea) EditText message_area;
+    @BindView(R.id.scrollView) ScrollView scroll_view;
+
+    Firebase ref_user_friend, ref_friend_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
-        layout = (LinearLayout) findViewById(R.id.layout1);
-        layout_2 = (RelativeLayout)findViewById(R.id.layout2);
-        sendButton = (ImageView)findViewById(R.id.sendButton);
-        messageArea = (EditText)findViewById(R.id.messageArea);
-        scrollView = (ScrollView)findViewById(R.id.scrollView);
+        ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);
-        reference1 = new Firebase("https://chat-app-f7685.firebaseio.com/messages/" + UserDetails.username + "_" + UserDetails.chatWith);
-        reference2 = new Firebase("https://chat-app-f7685.firebaseio.com/messages/" + UserDetails.chatWith + "_" + UserDetails.username);
+        ref_user_friend = new Firebase(constants.api_url_messages + UserDetails.username + "_" + UserDetails.chat_with);
+        ref_friend_user = new Firebase(constants.api_url_messages + UserDetails.chat_with + "_" + UserDetails.username);
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageText = messageArea.getText().toString();
-
-                    if(!messageText.equals("")){
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("message", messageText);
-                        map.put("user", UserDetails.username);
-                        reference1.push().setValue(map);
-                        reference2.push().setValue(map);
-                        messageArea.setText("");
-                }
-            }
-        });
-
-        reference1.addChildEventListener(new ChildEventListener() {
+        ref_user_friend.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
@@ -71,49 +51,58 @@ public class Chat extends AppCompatActivity {
                     addMessageBox("You:-\n" + message, 1);
                 }
                 else{
-                    addMessageBox(UserDetails.chatWith + ":-\n" + message, 2);
+                    addMessageBox(UserDetails.chat_with + ":-\n" + message, 2);
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
+    }
+
+    @OnClick(R.id.sendButton)
+    public void onClick(View v) {
+        String messageText = message_area.getText().toString();
+
+        if(!messageText.equals("")){
+            Map<String, String> map = new HashMap<>();
+            map.put("message", messageText);
+            map.put("user", UserDetails.username);
+            ref_user_friend.push().setValue(map);
+            ref_friend_user.push().setValue(map);
+            message_area.setText("");
+        }
     }
 
     public void addMessageBox(String message, int type){
         TextView textView = new TextView(Chat.this);
         textView.setText(message);
 
-        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp2.weight = 1.0f;
+        LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        layout_params.weight = 1.0f;
 
         if(type == 1) {
-            lp2.gravity = Gravity.LEFT;
+            layout_params.gravity = Gravity.START;
             textView.setBackgroundResource(R.drawable.bubble_in);
         }
         else{
-            lp2.gravity = Gravity.RIGHT;
+            layout_params.gravity = Gravity.END;
             textView.setBackgroundResource(R.drawable.bubble_out);
         }
-        textView.setLayoutParams(lp2);
+        textView.setLayoutParams(layout_params);
         layout.addView(textView);
-        scrollView.fullScroll(View.FOCUS_DOWN);
+        scroll_view.fullScroll(View.FOCUS_DOWN);
     }
 }

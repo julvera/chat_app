@@ -7,7 +7,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -52,7 +51,7 @@ public class Login extends AppCompatActivity {
                 break;
 
             case R.id.guest_btn:
-                startActivity(new Intent(Login.this, Guest.class));
+                startActivity(new Intent(Login.this, Guests.class));
                 break;
 
             default:
@@ -70,7 +69,7 @@ public class Login extends AppCompatActivity {
             Error_pop.setVisibility(View.VISIBLE);
         }
         else {
-            Error_pop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
+            Error_pop.setVisibility(View.GONE); // For appearance on 2nd attempt with usr & pass
             StringRequest request = db_check_credentials(user, pass);
             RequestQueue rQueue = Volley.newRequestQueue(Login.this);
             rQueue.add(request);
