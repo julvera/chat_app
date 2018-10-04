@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,9 +23,10 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends AppCompatActivity {
 
     final static private String TAG = Login.class.getSimpleName();
     @BindView(R.id.login) EditText login;
@@ -40,11 +40,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         Log.i(TAG, "onCreate");
         ButterKnife.bind(this);
-        login_btn.setOnClickListener(this);
-        register_btn.setOnClickListener(this);
     }
 
-    @Override public void onClick(View v) {
+    @OnClick({R.id.register_btn, R.id.login_btn})
+    public void setOnClickLoginEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
                 login_click_action();
@@ -64,12 +63,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString(); //IDE whining for no damn reason
         TextView Error_pop = findViewById(R.id.Error_pop);
+        Error_pop.setVisibility(View.INVISIBLE); // Just for appearance on 2nd attempt with usr & pass
 
         if(user.isEmpty() || pass.isEmpty()){
             Error_pop.setVisibility(View.VISIBLE);
         }
         else {
-            Error_pop.setVisibility(View.INVISIBLE);
             StringRequest request = db_check_credentials(user, pass);
             RequestQueue rQueue = Volley.newRequestQueue(Login.this);
             rQueue.add(request);
@@ -77,7 +76,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private StringRequest db_check_credentials (final String user, final String pass) {
-        String url = constants.api_url_json; //Pull our URL from Firebase
         final ProgressDialog prog_dial = new ProgressDialog(Login.this);
         prog_dial.setMessage("Loading...");
         prog_dial.show();
@@ -86,19 +84,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 if (s.equals("null")) {
-                    Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
+                    helper.toast_error(Login.this, constants.txt_error_user_not_found);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
-                            Toast.makeText(Login.this, "user not found", Toast.LENGTH_LONG).show();
+                            helper.toast_error(Login.this, constants.txt_error_user_not_found);
                         } else if (obj.getJSONObject(user).getString("password").equals(pass)) {
                             UserDetails.username = user;
                             UserDetails.password = pass;
                             startActivity(new Intent(Login.this, Users.class));
                         } else {
-                            Toast.makeText(Login.this, "incorrect password", Toast.LENGTH_LONG).show();
+                            helper.toast_error(Login.this, constants.txt_error_incorrect_password);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -118,7 +116,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         return new StringRequest(
             Request.Method.GET,
-            url,
+            constants.api_url_users_json, //our Firebase url
             response_listener,
             error_listener
         );

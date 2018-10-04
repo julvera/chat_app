@@ -15,7 +15,7 @@
         android:layout_width="@+id/login_btn"
         android:layout_height="45dp"
         android:layout_marginTop="40dp"
-        android:text="@string/register"
+        android:text="@string/register_now"
         app:layout_constraintEnd_toEndOf="@+id/login"
         app:layout_constraintStart_toStartOf="@+id/login"
         app:layout_constraintTop_toTopOf="parent" />
