@@ -32,8 +32,6 @@ public class Register extends AppCompatActivity {
     final static private String TAG = Login.class.getSimpleName();
     @BindView(R.id.login) EditText login;
     @BindView(R.id.password) TextInputLayout password;
-    @BindView(R.id.login_btn) TextView login_btn;
-    @BindView(R.id.register_btn) Button register_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

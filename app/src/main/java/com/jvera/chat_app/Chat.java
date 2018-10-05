@@ -17,6 +17,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,11 +69,15 @@ public class Chat extends AppCompatActivity {
                 String message = map.get("message").toString();
                 String userName = map.get("user").toString();
 
+                //TODO : Add timestamp for each message
+
                 if(userName.equals(UserDetails.username)){
-                    addMessageBox("You:-\n" + message, 1);
+                    addMessageBox( message, 1);
                 }
                 else{
-                    addMessageBox(UserDetails.chatWith + ":-\n" + message, 2);
+                   // addMessageBox(UserDetails.chatWith + ": " + message, 2);
+                    addMessageBox(message, 2);
+
                 }
             }
 
@@ -106,15 +112,22 @@ public class Chat extends AppCompatActivity {
 
         if(type == 1) {
             lp2.gravity = Gravity.LEFT;
-            textView.setBackgroundResource(R.drawable.bubble_in);
+            textView.setBackgroundResource(R.drawable.bubble_left);
         }
         else{
             lp2.gravity = Gravity.RIGHT;
-            textView.setBackgroundResource(R.drawable.bubble_out);
+            textView.setBackgroundResource(R.drawable.bubble_right);
         }
         
         textView.setLayoutParams(lp2);
         layout.addView(textView);
-        scrollView.fullScroll(View.FOCUS_DOWN);
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+
     }
 }
