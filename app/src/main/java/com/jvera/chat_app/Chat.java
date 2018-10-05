@@ -120,6 +120,13 @@ public class Chat extends AppCompatActivity {
         }
         textView.setLayoutParams(lp2);
         layout.addView(textView);
-        scrollView.fullScroll(View.FOCUS_DOWN);
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+
     }
 }
