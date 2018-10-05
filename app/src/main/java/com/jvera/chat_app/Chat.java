@@ -118,6 +118,7 @@ public class Chat extends AppCompatActivity {
             lp2.gravity = Gravity.RIGHT;
             textView.setBackgroundResource(R.drawable.bubble_right);
         }
+        
         textView.setLayoutParams(lp2);
         layout.addView(textView);
 
