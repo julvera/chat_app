@@ -16,14 +16,9 @@ public class Constants {
     protected static String txt_error_incorrect_password = "This password is incorrect";
 
     /*
-     * String constants
+     * api urls string constants
      */
-    protected static String api_url_users_usernames_json = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
     protected static String api_url_users_usernames = "https://chat-app-f7685.firebaseio.com/users/usernames";
-
+    protected static String api_url_users_usernames_json = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
     protected static String api_url_guests_usernames = "https://chat-app-f7685.firebaseio.com/guests/usernames";
-    protected static String api_url_guests_usernames_json = "https://chat-app-f7685.firebaseio.com/guests/usernames.json";
-
-    protected static String api_url_users_messages ="https://chat-app-f7685.firebaseio.com/users/messages";
-
 }

@@ -37,8 +37,8 @@ public class UserChat extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);
-        ref_user_friend = new Firebase(Constants.api_url_users_usernames + "/" + UserDetails.username + "/messages/" + UserDetails.chat_with);
-        ref_friend_user = new Firebase(Constants.api_url_users_usernames + "/" + UserDetails.chat_with + "/messages/" + UserDetails.username);
+        ref_user_friend = new Firebase(Helper.api_url_user_messages_friend());
+        ref_friend_user = new Firebase(Helper.api_url_friend_messages_user());
 
         ref_user_friend.addChildEventListener(new ChildEventListener() {
             @Override
@@ -58,17 +58,10 @@ public class UserChat extends AppCompatActivity {
                 }
             }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {}
+            @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override public void onCancelled(FirebaseError firebaseError) {}
         });
     }
 
@@ -90,21 +83,21 @@ public class UserChat extends AppCompatActivity {
         TextView textView = new TextView(UserChat.this);
         textView.setText(message);
 
-        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp2.weight = 1.0f;
+        LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layout_params.weight = 1.0f;
 
         if(type == 1) {
-            lp2.gravity = Gravity.START;
+            layout_params.gravity = Gravity.START;
             textView.setTextColor(getResources().getColor(R.color.black));
             textView.setBackgroundResource(R.drawable.bubble_left);
         }
         else{
-            lp2.gravity = Gravity.END;
+            layout_params.gravity = Gravity.END;
             textView.setTextColor(getResources().getColor(R.color.colorBackgroundChat));
             textView.setBackgroundResource(R.drawable.bubble_right);
         }
 
-        textView.setLayoutParams(lp2);
+        textView.setLayoutParams(layout_params);
         layout.addView(textView);
 
         scroll_view.post(new Runnable() {
@@ -113,6 +106,5 @@ public class UserChat extends AppCompatActivity {
                 scroll_view.fullScroll(ScrollView.FOCUS_DOWN);
             }
         });
-
     }
 }

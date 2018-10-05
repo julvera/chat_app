@@ -22,10 +22,29 @@ public class Helper {
     private static final Random r = new Random();
     private static final int guest_password_nbr = r.nextInt(100); //random between 0 and 100
 
+    /*
+    * api url generators
+    */
+    protected static String api_url_user_messages_friend () {
+        return url_generator_messages_sender_receiver(UserDetails.username, UserDetails.chat_with);
+    }
+    protected static String api_url_friend_messages_user () {
+        return url_generator_messages_sender_receiver(UserDetails.chat_with, UserDetails.username);
+    }
+    private static String url_generator_messages_sender_receiver (String sender, String receiver) {
+        return Constants.api_url_users_usernames + "/" + sender + "/messages/" + receiver;
+    }
+
+    /*
+    * Toast helper
+    */
     protected static void toast_error(Context context, final String error_msg){
         Toast.makeText(context, error_msg, Toast.LENGTH_LONG).show();
     }
 
+    /*
+    * Add user or guest into DB
+    */
     protected static StringRequest db_add_credentials(final Context context, final String base_url,
                                                       final String user, final String pass){
         final ProgressDialog prog_dial = new ProgressDialog(context);
@@ -75,6 +94,9 @@ public class Helper {
         );
     }
 
+    /*
+    * Generate fake password for guests
+    */
     private static void set_user_guest_password(Firebase reference, final String user,
                                                   final String pass) {
         String password;
@@ -84,6 +106,9 @@ public class Helper {
         reference.child(user).child("password").setValue(password);
     }
 
+    /*
+    * check username constraints
+    */
     protected static String check_username_validity(final String username) {
         String error_message = "";
         if (username.equals("")) {
@@ -96,6 +121,9 @@ public class Helper {
         return error_message;
     }
 
+    /*
+     * check password constraints
+     */
     protected static String check_password_validity(final String password) {
         String error_message = "";
         if (password.equals("")) {
