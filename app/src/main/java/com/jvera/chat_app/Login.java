@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
             Error_pop.setVisibility(View.VISIBLE);
         }
         else {
-            Error_pop.setVisibility(View.GONE); // For appearance on 2nd attempt with usr & pass
+            Error_pop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
             StringRequest request = db_check_credentials(user, pass);
             RequestQueue rQueue = Volley.newRequestQueue(Login.this);
             rQueue.add(request);
