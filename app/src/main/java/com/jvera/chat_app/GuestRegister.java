@@ -12,8 +12,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
 
-import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -59,7 +57,7 @@ public class GuestRegister extends AppCompatActivity {
         } else {
             StringRequest request = Helper.db_add_credentials(
                 GuestRegister.this,
-                Constants.api_url_guests,
+                Constants.api_url_guests_usernames,
                 pseudo_user,
                 null //no password for guests
             );

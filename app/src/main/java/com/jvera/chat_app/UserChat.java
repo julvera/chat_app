@@ -37,8 +37,8 @@ public class UserChat extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);
-        ref_user_friend = new Firebase(Constants.api_url_messages + UserDetails.username + "_" + UserDetails.chat_with);
-        ref_friend_user = new Firebase(Constants.api_url_messages + UserDetails.chat_with + "_" + UserDetails.username);
+        ref_user_friend = new Firebase(Constants.api_url_users_usernames + "/" + UserDetails.username + "/messages/" + UserDetails.chat_with);
+        ref_friend_user = new Firebase(Constants.api_url_users_usernames + "/" + UserDetails.chat_with + "/messages/" + UserDetails.username);
 
         ref_user_friend.addChildEventListener(new ChildEventListener() {
             @Override
@@ -95,10 +95,12 @@ public class UserChat extends AppCompatActivity {
 
         if(type == 1) {
             lp2.gravity = Gravity.START;
+            textView.setTextColor(getResources().getColor(R.color.black));
             textView.setBackgroundResource(R.drawable.bubble_left);
         }
         else{
             lp2.gravity = Gravity.END;
+            textView.setTextColor(getResources().getColor(R.color.colorBackgroundChat));
             textView.setBackgroundResource(R.drawable.bubble_right);
         }
 
