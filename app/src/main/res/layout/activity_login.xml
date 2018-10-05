@@ -12,12 +12,14 @@
     <!--Register Now!-->
     <Button
         android:id="@+id/register_btn"
-        android:layout_width="@+id/login_btn"
+        android:layout_width="230dp"
         android:layout_height="45dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/register_now"
-        app:layout_constraintEnd_toEndOf="@+id/login"
-        app:layout_constraintStart_toStartOf="@+id/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--Text: Or-->
@@ -25,10 +27,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/or"
-        app:layout_constraintEnd_toEndOf="@+id/register_btn"
-        app:layout_constraintStart_toStartOf="@+id/register_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_btn" />
 
     <!--Text: Log in-->
@@ -36,10 +40,12 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/log_in"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <!--Login info-->
@@ -54,8 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_editor_absoluteY="25dp"
-        tools:layout_editor_absoluteX="85dp" />
+        />
 
     <!--Password + hide and show-->
     <android.support.design.widget.TextInputLayout
@@ -82,23 +87,25 @@
         android:id="@+id/Error_pop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/some_red"
-        android:textAlignment="center"
         android:text="@string/fill_fields"
+        android:textAlignment="center"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <!--Sign in-->
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="@+id/Error_pop"
+        android:layout_width="230dp"
         android:layout_height="45dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/send"
-        app:layout_constraintEnd_toEndOf="@+id/Error_pop"
-        app:layout_constraintStart_toStartOf="@+id/Error_pop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Error_pop" />
 
     <!--Text: Or-->
@@ -106,19 +113,20 @@
         android:id="@+id/textViewOr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/or"
-        app:layout_constraintEnd_toEndOf="@+id/login_btn"
-        app:layout_constraintStart_toStartOf="@+id/login_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_btn" />
 
     <Button
         android:id="@+id/guest_btn"
-        android:layout_width="215dp"
-        android:layout_height="42dp"
+        android:layout_width="230dp"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/guest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
