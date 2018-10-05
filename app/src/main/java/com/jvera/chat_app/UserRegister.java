@@ -66,7 +66,7 @@ public class UserRegister extends AppCompatActivity {
         } else {
             StringRequest request = Helper.db_add_credentials(
                 UserRegister.this,
-                Constants.api_url_users,
+                Constants.api_url_users_usernames,
                 user,
                 pass
             );

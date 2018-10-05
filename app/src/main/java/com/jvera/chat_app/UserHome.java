@@ -75,7 +75,7 @@ public class UserHome extends AppCompatActivity {
 
         return new StringRequest(
             Request.Method.GET,
-            Constants.api_url_users_json,
+            Constants.api_url_users_usernames_json,
             response_listener,
             error_listener
         );

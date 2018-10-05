@@ -115,7 +115,7 @@ public class Login extends AppCompatActivity {
 
         return new StringRequest(
             Request.Method.GET,
-            Constants.api_url_users_json, //our Firebase url
+            Constants.api_url_users_usernames_json, //our Firebase url
             response_listener,
             error_listener
         );

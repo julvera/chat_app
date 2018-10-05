@@ -18,12 +18,12 @@ public class Constants {
     /*
      * String constants
      */
-    protected static String api_url_users_json = "https://chat-app-f7685.firebaseio.com//users.json";
-    protected static String api_url_users = "https://chat-app-f7685.firebaseio.com//users";
+    protected static String api_url_users_usernames_json = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
+    protected static String api_url_users_usernames = "https://chat-app-f7685.firebaseio.com/users/usernames";
 
-    protected static String api_url_guests = "https://chat-app-f7685.firebaseio.com//guests";
-    protected static String api_url_guests_json = "https://chat-app-f7685.firebaseio.com//guests.json";
+    protected static String api_url_guests_usernames = "https://chat-app-f7685.firebaseio.com/guests/usernames";
+    protected static String api_url_guests_usernames_json = "https://chat-app-f7685.firebaseio.com/guests/usernames.json";
 
-    protected static String api_url_messages ="https://chat-app-f7685.firebaseio.com/messages/";
+    protected static String api_url_users_messages ="https://chat-app-f7685.firebaseio.com/users/messages";
 
 }

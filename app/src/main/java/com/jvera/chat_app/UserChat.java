@@ -37,8 +37,8 @@ public class UserChat extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);
-        ref_user_friend = new Firebase(Constants.api_url_messages + UserDetails.username + "_" + UserDetails.chat_with);
-        ref_friend_user = new Firebase(Constants.api_url_messages + UserDetails.chat_with + "_" + UserDetails.username);
+        ref_user_friend = new Firebase(Constants.api_url_users_usernames + "/" + UserDetails.username + "/messages/" + UserDetails.chat_with);
+        ref_friend_user = new Firebase(Constants.api_url_users_usernames + "/" + UserDetails.chat_with + "/messages/" + UserDetails.username);
 
         ref_user_friend.addChildEventListener(new ChildEventListener() {
             @Override
@@ -47,11 +47,14 @@ public class UserChat extends AppCompatActivity {
                 String message = map.get("message").toString();
                 String userName = map.get("user").toString();
 
+                //TODO : Add timestamp for each message
+
                 if(userName.equals(UserDetails.username)){
-                    addMessageBox("You:-\n" + message, 1);
+                    addMessageBox( message, 1);
                 }
                 else{
-                    addMessageBox(UserDetails.chat_with + ":-\n" + message, 2);
+                    // addMessageBox(UserDetails.chatWith + ": " + message, 2);
+                    addMessageBox(message, 2);
                 }
             }
 
@@ -87,22 +90,29 @@ public class UserChat extends AppCompatActivity {
         TextView textView = new TextView(UserChat.this);
         textView.setText(message);
 
-        LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-        layout_params.weight = 1.0f;
+        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp2.weight = 1.0f;
 
         if(type == 1) {
-            layout_params.gravity = Gravity.START;
-            textView.setBackgroundResource(R.drawable.bubble_in);
+            lp2.gravity = Gravity.START;
+            textView.setTextColor(getResources().getColor(R.color.black));
+            textView.setBackgroundResource(R.drawable.bubble_left);
         }
         else{
-            layout_params.gravity = Gravity.END;
-            textView.setBackgroundResource(R.drawable.bubble_out);
+            lp2.gravity = Gravity.END;
+            textView.setTextColor(getResources().getColor(R.color.colorBackgroundChat));
+            textView.setBackgroundResource(R.drawable.bubble_right);
         }
-        textView.setLayoutParams(layout_params);
+
+        textView.setLayoutParams(lp2);
         layout.addView(textView);
-        scroll_view.fullScroll(View.FOCUS_DOWN);
+
+        scroll_view.post(new Runnable() {
+            @Override
+            public void run() {
+                scroll_view.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+
     }
 }
