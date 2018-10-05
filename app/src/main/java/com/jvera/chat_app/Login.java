@@ -99,9 +99,7 @@ public class Login extends AppCompatActivity {
                         } else {
                             Helper.toast_error(Login.this, Constants.txt_error_incorrect_password);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    } catch (JSONException e) {e.printStackTrace();}
                 }
                 prog_dial.dismiss();
             }

@@ -27,7 +27,7 @@ public class UserRegister extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_user_register);
         Log.i(TAG, "onCreate UserRegister");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);

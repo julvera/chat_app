@@ -53,9 +53,7 @@ public class Helper {
                         } else {
                             Helper.toast_error(context, Constants.txt_error_user_exists);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    } catch (JSONException e) {e.printStackTrace();}
                 }
                 prog_dial.dismiss();
             }
@@ -70,10 +68,10 @@ public class Helper {
         };
 
         return new StringRequest(
-                Request.Method.GET,
-                base_url + ".json",
-                response_listener,
-                error_listener
+            Request.Method.GET,
+            base_url + ".json",
+            response_listener,
+            error_listener
         );
     }
 

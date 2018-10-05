@@ -33,7 +33,7 @@ public class UserChat extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_user_chat);
         ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);

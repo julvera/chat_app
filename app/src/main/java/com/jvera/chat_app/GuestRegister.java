@@ -12,8 +12,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
 
-import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +25,7 @@ public class GuestRegister extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guest);
+        setContentView(R.layout.activity_guest_register);
         Log.i(TAG, "onCreate GuestRegister");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
