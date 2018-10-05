@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Register extends AppCompatActivity {
+public class UserRegister extends AppCompatActivity {
 
     final static private String TAG = Login.class.getSimpleName();
     @BindView(R.id.login) EditText login;
@@ -28,21 +28,21 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Log.i(TAG, "onCreate Register");
+        Log.i(TAG, "onCreate UserRegister");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
     }
 
     @OnClick({R.id.register_btn, R.id.login_btn})
-    public void setOnClickRegisterEvents(View v) {
+    public void setOnClickUserRegisterEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
-                startActivity(new Intent(Register.this, Login.class));
+                startActivity(new Intent(UserRegister.this, Login.class));
                 break;
 
             case R.id.register_btn:
                 if (register_click_action()) {
-                    startActivity(new Intent(Register.this, Login.class));
+                    startActivity(new Intent(UserRegister.this, Login.class));
                 }
                 break;
 
@@ -56,21 +56,21 @@ public class Register extends AppCompatActivity {
         boolean ret = false;
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString();
-        String invalid_user_reason = helper.check_username_validity(user);
-        String invalid_pass_reason = helper.check_password_validity(user);
+        String invalid_user_reason = Helper.check_username_validity(user);
+        String invalid_pass_reason = Helper.check_password_validity(user);
 
         if (!"".equals(invalid_user_reason)) {
             login.setError(invalid_user_reason);
         } else if (!"".equals(invalid_pass_reason)) {
             password.setError(invalid_pass_reason);
         } else {
-            StringRequest request = helper.db_add_credentials(
-                Register.this,
-                constants.api_url_users,
+            StringRequest request = Helper.db_add_credentials(
+                UserRegister.this,
+                Constants.api_url_users,
                 user,
                 pass
             );
-            RequestQueue rQueue = Volley.newRequestQueue(Register.this);
+            RequestQueue rQueue = Volley.newRequestQueue(UserRegister.this);
             rQueue.add(request);
             ret = true;
         }
@@ -80,30 +80,30 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG,"onStart Register");
+        Log.i(TAG,"onStart UserRegister");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"onResume Register");
+        Log.i(TAG,"onResume UserRegister");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(TAG,"onPause Register");
+        Log.i(TAG,"onPause UserRegister");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(TAG,"onStop Register");
+        Log.i(TAG,"onStop UserRegister");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG,"onDestroy Register");
+        Log.i(TAG,"onDestroy UserRegister");
     }
 }

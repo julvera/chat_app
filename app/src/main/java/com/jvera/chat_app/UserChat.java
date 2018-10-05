@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Chat extends AppCompatActivity {
+public class UserChat extends AppCompatActivity {
     @BindView(R.id.layout1) LinearLayout layout;
     @BindView(R.id.messageArea) EditText message_area;
     @BindView(R.id.scrollView) ScrollView scroll_view;
@@ -37,8 +37,8 @@ public class Chat extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);
-        ref_user_friend = new Firebase(constants.api_url_messages + UserDetails.username + "_" + UserDetails.chat_with);
-        ref_friend_user = new Firebase(constants.api_url_messages + UserDetails.chat_with + "_" + UserDetails.username);
+        ref_user_friend = new Firebase(Constants.api_url_messages + UserDetails.username + "_" + UserDetails.chat_with);
+        ref_friend_user = new Firebase(Constants.api_url_messages + UserDetails.chat_with + "_" + UserDetails.username);
 
         ref_user_friend.addChildEventListener(new ChildEventListener() {
             @Override
@@ -84,7 +84,7 @@ public class Chat extends AppCompatActivity {
     }
 
     public void addMessageBox(String message, int type){
-        TextView textView = new TextView(Chat.this);
+        TextView textView = new TextView(UserChat.this);
         textView.setText(message);
 
         LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(

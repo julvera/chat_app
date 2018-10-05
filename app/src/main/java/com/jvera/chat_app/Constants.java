@@ -2,7 +2,7 @@ package com.jvera.chat_app;
 
 
 @SuppressWarnings("WeakerAccess")
-public class constants {
+public class Constants {
     /*
     * Text strings for toasts pop-ups mainly
     */

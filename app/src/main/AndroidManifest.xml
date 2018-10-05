@@ -22,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Register" />
-        <activity android:name=".Users" />
-        <activity android:name=".Chat" />
-        <activity android:name=".Guests"></activity>
+        <activity android:name=".UserRegister" />
+        <activity android:name=".UserHome" />
+        <activity android:name=".UserChat" />
+        <activity android:name=".GuestRegister"></activity>
     </application>
 
 </manifest>

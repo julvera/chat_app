@@ -18,16 +18,12 @@ import java.util.Random;
 
 
 @SuppressWarnings("WeakerAccess")
-public class helper {
+public class Helper {
     private static final Random r = new Random();
     private static final int guest_password_nbr = r.nextInt(100); //random between 0 and 100
 
     protected static void toast_error(Context context, final String error_msg){
-        Toast.makeText(
-            context,
-            error_msg,
-            Toast.LENGTH_LONG
-        ).show();
+        Toast.makeText(context, error_msg, Toast.LENGTH_LONG).show();
     }
 
     protected static StringRequest db_add_credentials(final Context context, final String base_url,
@@ -43,19 +39,19 @@ public class helper {
 
                 if (s.equals("null")) {
                     set_user_guest_password(reference, user, pass);
-                    helper.toast_error(context, constants.txt_registration_successful);
+                    Helper.toast_error(context, Constants.txt_registration_successful);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
                             set_user_guest_password(reference, user, pass);
-                            helper.toast_error(context, constants.txt_registration_successful);
+                            Helper.toast_error(context, Constants.txt_registration_successful);
                             // if registration successful, go back to Login Page
                             context.startActivity(new Intent(context, Login.class));
 
                         } else {
-                            helper.toast_error(context, constants.txt_error_user_exists);
+                            Helper.toast_error(context, Constants.txt_error_user_exists);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -93,11 +89,11 @@ public class helper {
     protected static String check_username_validity(final String username) {
         String error_message = "";
         if (username.equals("")) {
-            error_message = constants.txt_error_field_required;
+            error_message = Constants.txt_error_field_required;
         } else if (!username.matches("[A-Za-z0-9]+")) {
-            error_message = constants.txt_error_alpha_or_number_only;
+            error_message = Constants.txt_error_alpha_or_number_only;
         } else if (username.length() < 5) {
-            error_message = constants.txt_error_short_username;
+            error_message = Constants.txt_error_short_username;
         }
         return error_message;
     }
@@ -105,9 +101,9 @@ public class helper {
     protected static String check_password_validity(final String password) {
         String error_message = "";
         if (password.equals("")) {
-            error_message = constants.txt_error_field_required;
+            error_message = Constants.txt_error_field_required;
         } else if (password.length() < 5) {
-            error_message = constants.txt_error_short_password;
+            error_message = Constants.txt_error_short_password;
         }
         return error_message;
     }

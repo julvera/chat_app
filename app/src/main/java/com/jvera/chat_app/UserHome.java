@@ -27,13 +27,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class Users extends AppCompatActivity {
+public class UserHome extends AppCompatActivity {
 
     @BindView(R.id.usersList) ListView usersList;
     @BindView(R.id.noUsersText) TextView noUsersText;
 
     ArrayList<String> discussions_list = new ArrayList<>();
-    ProgressDialog prog_dial = new ProgressDialog(Users.this);
+    ProgressDialog prog_dial = new ProgressDialog(UserHome.this);
     int totalUsers = 0;
 
     @Override
@@ -43,14 +43,14 @@ public class Users extends AppCompatActivity {
         ButterKnife.bind(this);
 
         StringRequest request = db_get_discussions();
-        RequestQueue rQueue = Volley.newRequestQueue(Users.this);
+        RequestQueue rQueue = Volley.newRequestQueue(UserHome.this);
         rQueue.add(request);
 
         usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserDetails.chat_with = discussions_list.get(position);
-                startActivity(new Intent(Users.this, Chat.class));
+                startActivity(new Intent(UserHome.this, UserChat.class));
             }
         });
     }
@@ -74,7 +74,7 @@ public class Users extends AppCompatActivity {
 
         return new StringRequest(
             Request.Method.GET,
-            constants.api_url_users_json,
+            Constants.api_url_users_json,
             response_listener,
             error_listener
         );

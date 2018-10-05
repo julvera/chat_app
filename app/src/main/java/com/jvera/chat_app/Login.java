@@ -47,11 +47,11 @@ public class Login extends AppCompatActivity {
                 break;
 
             case R.id.register_btn:
-                startActivity(new Intent(Login.this, Register.class));
+                startActivity(new Intent(Login.this, UserRegister.class));
                 break;
 
             case R.id.guest_btn:
-                startActivity(new Intent(Login.this, Guests.class));
+                startActivity(new Intent(Login.this, GuestRegister.class));
                 break;
 
             default:
@@ -85,19 +85,19 @@ public class Login extends AppCompatActivity {
             @Override
             public void onResponse(String s) {
                 if (s.equals("null")) {
-                    helper.toast_error(Login.this, constants.txt_error_user_not_found);
+                    Helper.toast_error(Login.this, Constants.txt_error_user_not_found);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
-                            helper.toast_error(Login.this, constants.txt_error_user_not_found);
+                            Helper.toast_error(Login.this, Constants.txt_error_user_not_found);
                         } else if (obj.getJSONObject(user).getString("password").equals(pass)) {
                             UserDetails.username = user;
                             UserDetails.password = pass;
-                            startActivity(new Intent(Login.this, Users.class));
+                            startActivity(new Intent(Login.this, UserHome.class));
                         } else {
-                            helper.toast_error(Login.this, constants.txt_error_incorrect_password);
+                            Helper.toast_error(Login.this, Constants.txt_error_incorrect_password);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -117,7 +117,7 @@ public class Login extends AppCompatActivity {
 
         return new StringRequest(
             Request.Method.GET,
-            constants.api_url_users_json, //our Firebase url
+            Constants.api_url_users_json, //our Firebase url
             response_listener,
             error_listener
         );
