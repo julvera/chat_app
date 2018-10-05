@@ -33,8 +33,8 @@ public class UserHome extends AppCompatActivity {
     @BindView(R.id.noUsersText) TextView noUsersText;
 
     ArrayList<String> discussions_list = new ArrayList<>();
-    ProgressDialog prog_dial = new ProgressDialog(UserHome.this);
-    int totalUsers = 0;
+    ProgressDialog prog_dial;
+    private int totalUsers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class UserHome extends AppCompatActivity {
     }
 
     private StringRequest db_get_discussions(){
+        prog_dial = new ProgressDialog(UserHome.this);
         prog_dial.setMessage("Loading...");
         prog_dial.show();
         Response.Listener<String> response_listener = new Response.Listener<String>(){
@@ -101,7 +102,7 @@ public class UserHome extends AppCompatActivity {
             noUsersText.setVisibility(View.GONE);
             usersList.setVisibility(View.VISIBLE);
             usersList.setAdapter(new ArrayAdapter<>(
-                    this, android.R.layout.simple_list_item_1, discussions_list
+                this, android.R.layout.simple_list_item_1, discussions_list
             ));
         }
         prog_dial.dismiss();
