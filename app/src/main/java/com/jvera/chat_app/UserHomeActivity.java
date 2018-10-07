@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class UserHome extends AppCompatActivity {
+public class UserHomeActivity extends AppCompatActivity {
     private static final String TAG = "Debug" ;
     @BindView(R.id.usersList) ListView usersList;
     @BindView(R.id.noUsersText) TextView noUsersText;
@@ -41,24 +41,24 @@ public class UserHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-        Log.i(TAG, "onCreate UserHome");
+        Log.i(TAG, "onCreate UserHomeActivity");
         ButterKnife.bind(this);
 
         StringRequest request = db_get_discussions();
-        RequestQueue rQueue = Volley.newRequestQueue(UserHome.this);
+        RequestQueue rQueue = Volley.newRequestQueue(this);
         rQueue.add(request);
 
         usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserDetails.chat_with = discussions_list.get(position);
-                startActivity(new Intent(UserHome.this, UserChat.class));
+                startActivity(new Intent(UserHomeActivity.this, UserChatActivity.class));
             }
         });
     }
 
     private StringRequest db_get_discussions(){
-        prog_dial = new ProgressDialog(UserHome.this);
+        prog_dial = new ProgressDialog(this);
         prog_dial.setMessage("Loading...");
         prog_dial.show();
         Response.Listener<String> response_listener = new Response.Listener<String>(){
@@ -113,30 +113,30 @@ public class UserHome extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG,"onStart UserHome");
+        Log.i(TAG,"onStart UserHomeActivity");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"onResume UserHome");
+        Log.i(TAG,"onResume UserHomeActivity");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(TAG,"onPause UserHome");
+        Log.i(TAG,"onPause UserHomeActivity");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(TAG,"onStop UserHome");
+        Log.i(TAG,"onStop UserHomeActivity");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG,"onDestroy UserHome");
+        Log.i(TAG,"onDestroy UserHomeActivity");
     }
 }

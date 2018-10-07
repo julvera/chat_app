@@ -21,24 +21,26 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GuestChat extends AppCompatActivity {
+public class UserChatActivity extends AppCompatActivity {
     private static final String TAG = "Debug" ;
     @BindView(R.id.layout1) LinearLayout layout;
     @BindView(R.id.messageArea) EditText message_area;
     @BindView(R.id.scrollView) ScrollView scroll_view;
 
-    Firebase ref_guests_messages;
+    Firebase ref_user_friend, ref_friend_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guest_chat);
-        Log.i(TAG, "onCreate GuestChat");
+        setContentView(R.layout.activity_user_chat);
+        Log.i(TAG, "onCreate UserChatActivity");
         ButterKnife.bind(this);
-        Firebase.setAndroidContext(this);
-        ref_guests_messages = new Firebase(Constants.api_url_guests_messages);
 
-        ref_guests_messages.addChildEventListener(new ChildEventListener() {
+        Firebase.setAndroidContext(this);
+        ref_user_friend = new Firebase(Helper.api_url_user_messages_friend());
+        ref_friend_user = new Firebase(Helper.api_url_friend_messages_user());
+
+        ref_user_friend.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
@@ -48,11 +50,10 @@ public class GuestChat extends AppCompatActivity {
                 //TODO : Add timestamp for each message
 
                 int type = Constants.message_type_self; //message from us
-                if(!username.equals(GuestDetails.username)){ //message from someone else
+                if(!username.equals(UserDetails.username)){ //message from someone else
                     type = Constants.message_type_other;
-                    message = username + ": " + message;
                 }
-                Helper.add_message_box(GuestChat.this, layout, scroll_view, message, type);
+                Helper.add_message_box(UserChatActivity.this, layout, scroll_view, message, type);
             }
 
             @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
@@ -69,9 +70,40 @@ public class GuestChat extends AppCompatActivity {
         if(!messageText.equals("")){
             Map<String, String> map = new HashMap<>();
             map.put("message", messageText);
-            map.put("user", GuestDetails.username);
-            ref_guests_messages.push().setValue(map);
+            map.put("user", UserDetails.username);
+            ref_user_friend.push().setValue(map);
+            ref_friend_user.push().setValue(map);
             message_area.setText("");
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart UserChatActivity");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"onResume UserChatActivity");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause UserChatActivity");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG,"onStop UserChatActivity");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy UserChatActivity");
     }
 }

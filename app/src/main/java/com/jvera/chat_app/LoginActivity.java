@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    final static private String TAG = Login.class.getSimpleName();
+    final static private String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.login) EditText login;
     @BindView(R.id.password) TextInputLayout password;
 
@@ -47,11 +47,11 @@ public class Login extends AppCompatActivity {
                 break;
 
             case R.id.register_btn:
-                startActivity(new Intent(Login.this, UserRegister.class));
+                startActivity(new Intent(this, UserRegisterActivity.class));
                 break;
 
             case R.id.guest_btn:
-                startActivity(new Intent(Login.this, GuestRegister.class));
+                startActivity(new Intent(this, GuestRegisterActivity.class));
                 break;
 
             default:
@@ -71,13 +71,13 @@ public class Login extends AppCompatActivity {
         else {
             Error_pop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
             StringRequest request = db_check_credentials(user, pass);
-            RequestQueue rQueue = Volley.newRequestQueue(Login.this);
+            RequestQueue rQueue = Volley.newRequestQueue(this);
             rQueue.add(request);
         }
     }
 
     private StringRequest db_check_credentials (final String user, final String pass) {
-        final ProgressDialog prog_dial = new ProgressDialog(Login.this);
+        final ProgressDialog prog_dial = new ProgressDialog(this);
         prog_dial.setMessage("Loading...");
         prog_dial.show();
 
@@ -85,19 +85,19 @@ public class Login extends AppCompatActivity {
             @Override
             public void onResponse(String s) {
                 if (s.equals("null")) {
-                    Helper.toast_error(Login.this, Constants.txt_error_user_not_found);
+                    Helper.toast_error(LoginActivity.this, Constants.txt_error_user_not_found);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
-                            Helper.toast_error(Login.this, Constants.txt_error_user_not_found);
-                        } else if (obj.getJSONObject(user).getString("password").equals(pass)) {
+                            Helper.toast_error(LoginActivity.this, Constants.txt_error_user_not_found);
+                        } else if (obj.getJSONObject(user).getJSONObject("profile").getString("password").equals(pass)) {
                             UserDetails.username = user;
                             UserDetails.password = pass;
-                            startActivity(new Intent(Login.this, UserHome.class));
+                            startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
                         } else {
-                            Helper.toast_error(Login.this, Constants.txt_error_incorrect_password);
+                            Helper.toast_error(LoginActivity.this, Constants.txt_error_incorrect_password);
                         }
                     } catch (JSONException e) {e.printStackTrace();}
                 }

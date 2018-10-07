@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GuestRegister extends AppCompatActivity {
+public class GuestRegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "Debug" ;
     @BindView(R.id.pseudo_guest) EditText pseudo_guest;
@@ -26,7 +26,7 @@ public class GuestRegister extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_register);
-        Log.i(TAG, "onCreate GuestRegister");
+        Log.i(TAG, "onCreate GuestRegisterActivity");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
     }
@@ -36,7 +36,7 @@ public class GuestRegister extends AppCompatActivity {
         switch(v.getId()) {
             case R.id.login_guest_btn:
                 if (register_click_action()) {
-                    startActivity(new Intent(GuestRegister.this, GuestChat.class));
+                    startActivity(new Intent(this, GuestChatActivity.class));
                 }
                 break;
 
@@ -56,12 +56,12 @@ public class GuestRegister extends AppCompatActivity {
         } else {
             GuestDetails.username = guest_username;
             StringRequest request = Helper.db_add_credentials(
-                GuestRegister.this,
+                GuestRegisterActivity.this,
                 Constants.api_url_guests_usernames,
                 guest_username,
                 null //no password for guests
             );
-            RequestQueue rQueue = Volley.newRequestQueue(GuestRegister.this);
+            RequestQueue rQueue = Volley.newRequestQueue(this);
             rQueue.add(request);
             ret = true;
         }
@@ -71,30 +71,30 @@ public class GuestRegister extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG,"onStart GuestRegister");
+        Log.i(TAG,"onStart GuestRegisterActivity");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"onResume GuestRegister");
+        Log.i(TAG,"onResume GuestRegisterActivity");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(TAG,"onPause GuestRegister");
+        Log.i(TAG,"onPause GuestRegisterActivity");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(TAG,"onStop GuestRegister");
+        Log.i(TAG,"onStop GuestRegisterActivity");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG,"onDestroy GuestRegister");
+        Log.i(TAG,"onDestroy GuestRegisterActivity");
     }
 }
