@@ -1,14 +1,12 @@
 package com.jvera.chat_app;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -24,6 +22,7 @@ import butterknife.OnClick;
 
 
 public class UserChat extends AppCompatActivity {
+    private static final String TAG = "Debug" ;
     @BindView(R.id.layout1) LinearLayout layout;
     @BindView(R.id.messageArea) EditText message_area;
     @BindView(R.id.scrollView) ScrollView scroll_view;
@@ -34,6 +33,7 @@ public class UserChat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_chat);
+        Log.i(TAG, "onCreate UserChat");
         ButterKnife.bind(this);
 
         Firebase.setAndroidContext(this);
@@ -45,17 +45,15 @@ public class UserChat extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
                 String message = map.get("message").toString();
-                String userName = map.get("user").toString();
+                String username = map.get("user").toString();
 
                 //TODO : Add timestamp for each message
 
-                if(userName.equals(UserDetails.username)){
-                    addMessageBox( message, 1);
+                int type = Constants.message_type_self; //message from us
+                if(!username.equals(UserDetails.username)){ //message from someone else
+                    type = Constants.message_type_other;
                 }
-                else{
-                    // addMessageBox(UserDetails.chatWith + ": " + message, 2);
-                    addMessageBox(message, 2);
-                }
+                Helper.add_message_box(UserChat.this, layout, scroll_view, message, type);
             }
 
             @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
@@ -79,32 +77,33 @@ public class UserChat extends AppCompatActivity {
         }
     }
 
-    public void addMessageBox(String message, int type){
-        TextView textView = new TextView(UserChat.this);
-        textView.setText(message);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart UserChat");
+    }
 
-        LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layout_params.weight = 1.0f;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"onResume UserChat");
+    }
 
-        if(type == 1) {
-            layout_params.gravity = Gravity.START;
-            textView.setTextColor(getResources().getColor(R.color.black));
-            textView.setBackgroundResource(R.drawable.bubble_left);
-        }
-        else{
-            layout_params.gravity = Gravity.END;
-            textView.setTextColor(getResources().getColor(R.color.colorBackgroundChat));
-            textView.setBackgroundResource(R.drawable.bubble_right);
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause UserChat");
+    }
 
-        textView.setLayoutParams(layout_params);
-        layout.addView(textView);
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG,"onStop UserChat");
+    }
 
-        scroll_view.post(new Runnable() {
-            @Override
-            public void run() {
-                scroll_view.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        });
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy UserChat");
     }
 }

@@ -21,4 +21,11 @@ public class Constants {
     protected static String api_url_users_usernames = "https://chat-app-f7685.firebaseio.com/users/usernames";
     protected static String api_url_users_usernames_json = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
     protected static String api_url_guests_usernames = "https://chat-app-f7685.firebaseio.com/guests/usernames";
+    protected static String api_url_guests_messages = "https://chat-app-f7685.firebaseio.com/guests/messages";
+
+    /*
+    * Message type Constants
+    */
+    protected static int message_type_self = 1;
+    protected static int message_type_other = 2;
 }

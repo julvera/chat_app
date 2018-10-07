@@ -2,8 +2,9 @@ package com.jvera.chat_app;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
 
 
 public class UserHome extends AppCompatActivity {
-
+    private static final String TAG = "Debug" ;
     @BindView(R.id.usersList) ListView usersList;
     @BindView(R.id.noUsersText) TextView noUsersText;
 
@@ -40,6 +41,7 @@ public class UserHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
+        Log.i(TAG, "onCreate UserHome");
         ButterKnife.bind(this);
 
         StringRequest request = db_get_discussions();
@@ -106,5 +108,35 @@ public class UserHome extends AppCompatActivity {
             ));
         }
         prog_dial.dismiss();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart UserHome");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"onResume UserHome");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG,"onPause UserHome");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG,"onStop UserHome");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG,"onDestroy UserHome");
     }
 }

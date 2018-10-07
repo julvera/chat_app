@@ -57,7 +57,7 @@ public class UserRegister extends AppCompatActivity {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString();
         String invalid_user_reason = Helper.check_username_validity(user);
-        String invalid_pass_reason = Helper.check_password_validity(user);
+        String invalid_pass_reason = Helper.check_password_validity(pass);
 
         if (!"".equals(invalid_user_reason)) {
             login.setError(invalid_user_reason);

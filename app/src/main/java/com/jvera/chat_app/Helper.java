@@ -2,7 +2,11 @@ package com.jvera.chat_app;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -57,18 +61,13 @@ public class Helper {
                 Firebase reference = new Firebase(base_url);
 
                 if (s.equals("null")) {
-                    set_user_guest_password(reference, user, pass);
-                    Helper.toast_error(context, Constants.txt_registration_successful);
+                    set_user_guest_password(reference, context, user, pass);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
-                            set_user_guest_password(reference, user, pass);
-                            Helper.toast_error(context, Constants.txt_registration_successful);
-                            // if registration successful, go back to Login Page
-                            context.startActivity(new Intent(context, Login.class));
-
+                            set_user_guest_password(reference, context, user, pass);
                         } else {
                             Helper.toast_error(context, Constants.txt_error_user_exists);
                         }
@@ -95,15 +94,16 @@ public class Helper {
     }
 
     /*
-    * Generate fake password for guests
+    * add user password, generates fake password for users. pushes to DB
     */
-    private static void set_user_guest_password(Firebase reference, final String user,
-                                                  final String pass) {
+    private static void set_user_guest_password(Firebase reference, Context context,
+                                                final String user, final String pass) {
         String password;
         if (pass == null) {
             password = "G_" + user + "_" + guest_password_nbr;
         } else {password = pass;}
-        reference.child(user).child("password").setValue(password);
+        reference.child(user).child("profile").child("password").setValue(password);
+        Helper.toast_error(context, Constants.txt_registration_successful);
     }
 
     /*
@@ -132,5 +132,38 @@ public class Helper {
             error_message = Constants.txt_error_short_password;
         }
         return error_message;
+    }
+
+    /*
+    * Update latest received messages on screen
+    */
+    protected static void add_message_box(Context context, LinearLayout layout,
+                                          final ScrollView scroll_view, String message, int type){
+        TextView textView = new TextView(context);
+        textView.setText(message);
+
+        LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layout_params.weight = 1.0f;
+
+        if(type == Constants.message_type_self) {
+            layout_params.gravity = Gravity.END;
+            textView.setTextColor(context.getResources().getColor(R.color.colorBackgroundChat));
+            textView.setBackgroundResource(R.drawable.bubble_right);
+        }
+        else{
+            layout_params.gravity = Gravity.START;
+            textView.setTextColor(context.getResources().getColor(R.color.black));
+            textView.setBackgroundResource(R.drawable.bubble_left);
+        }
+
+        textView.setLayoutParams(layout_params);
+        layout.addView(textView);
+
+        scroll_view.post(new Runnable() {
+            @Override
+            public void run() {
+                scroll_view.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
     }
 }

@@ -36,8 +36,7 @@ public class GuestRegister extends AppCompatActivity {
         switch(v.getId()) {
             case R.id.login_guest_btn:
                 if (register_click_action()) {
-                    startActivity(new Intent(GuestRegister.this, Login.class)); //not Login
-                    //TODO: create the real class to redirect to (group chat)
+                    startActivity(new Intent(GuestRegister.this, GuestChat.class));
                 }
                 break;
 
@@ -49,16 +48,17 @@ public class GuestRegister extends AppCompatActivity {
 
     private boolean register_click_action() {
         boolean ret = false;
-        String pseudo_user = pseudo_guest.getText().toString();
-        String invalid_username_reason = Helper.check_username_validity(pseudo_user);
+        String guest_username = pseudo_guest.getText().toString();
+        String invalid_username_reason = Helper.check_username_validity(guest_username);
 
         if (!"".equals(invalid_username_reason)) {
             pseudo_guest.setError(invalid_username_reason);
         } else {
+            GuestDetails.username = guest_username;
             StringRequest request = Helper.db_add_credentials(
                 GuestRegister.this,
                 Constants.api_url_guests_usernames,
-                pseudo_user,
+                guest_username,
                 null //no password for guests
             );
             RequestQueue rQueue = Volley.newRequestQueue(GuestRegister.this);
