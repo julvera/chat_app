@@ -23,37 +23,37 @@ import java.util.Random;
 
 @SuppressWarnings("WeakerAccess")
 public class Helper {
-    private static final Random r = new Random();
-    private static final int guest_password_nbr = r.nextInt(100); //random between 0 and 100
+    private static final Random RAND = new Random();
+    private static final int GUEST_PASSWORD_NBR = RAND.nextInt(100); //random between 0 and 100
 
     /*
     * api url generators
     */
     protected static String api_url_user_messages_friend () {
-        return url_generator_messages_sender_receiver(UserDetails.username, UserDetails.chat_with);
+        return urlGeneratorMessagesSenderReceiver(UserDetails.username, UserDetails.chat_with);
     }
     protected static String api_url_friend_messages_user () {
-        return url_generator_messages_sender_receiver(UserDetails.chat_with, UserDetails.username);
+        return urlGeneratorMessagesSenderReceiver(UserDetails.chat_with, UserDetails.username);
     }
-    private static String url_generator_messages_sender_receiver (String sender, String receiver) {
-        return Constants.api_url_users_usernames + "/" + sender + "/messages/" + receiver;
+    private static String urlGeneratorMessagesSenderReceiver(String sender, String receiver) {
+        return Constants.API_URL_USERS_USERNAMES + "/" + sender + "/messages/" + receiver;
     }
 
     /*
     * Toast helper
     */
-    protected static void toast_error(Context context, final String error_msg){
+    protected static void toastError(Context context, final String error_msg){
         Toast.makeText(context, error_msg, Toast.LENGTH_LONG).show();
     }
 
     /*
     * Add user or guest into DB
     */
-    protected static StringRequest db_add_credentials(final Context context, final String base_url,
-                                                      final String user, final String pass){
-        final ProgressDialog prog_dial = new ProgressDialog(context);
-        prog_dial.setMessage("Loading...");
-        prog_dial.show();
+    protected static StringRequest dbAddCredentials(final Context context, final String base_url,
+                                                    final String user, final String pass){
+        final ProgressDialog progDial = new ProgressDialog(context);
+        progDial.setMessage("Loading...");
+        progDial.show();
 
         Response.Listener<String> response_listener = new Response.Listener<String>() {
             @Override
@@ -61,19 +61,19 @@ public class Helper {
                 Firebase reference = new Firebase(base_url);
 
                 if (s.equals("null")) {
-                    set_user_guest_password(reference, context, user, pass);
+                    setUserGuestPassword(reference, context, user, pass);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
-                            set_user_guest_password(reference, context, user, pass);
+                            setUserGuestPassword(reference, context, user, pass);
                         } else {
-                            Helper.toast_error(context, Constants.txt_error_user_exists);
+                            Helper.toastError(context, Constants.TXT_ERROR_USER_EXISTS);
                         }
                     } catch (JSONException e) {e.printStackTrace();}
                 }
-                prog_dial.dismiss();
+                progDial.dismiss();
             }
         };
 
@@ -81,7 +81,7 @@ public class Helper {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 System.out.println("" + volleyError);
-                prog_dial.dismiss();
+                progDial.dismiss();
             }
         };
 
@@ -96,73 +96,73 @@ public class Helper {
     /*
     * add user password, generates fake password for users. pushes to DB
     */
-    private static void set_user_guest_password(Firebase reference, Context context,
-                                                final String user, final String pass) {
+    private static void setUserGuestPassword(Firebase reference, Context context,
+                                             final String user, final String pass) {
         String password;
         if (pass == null) {
-            password = "G_" + user + "_" + guest_password_nbr;
+            password = "G_" + user + "_" + GUEST_PASSWORD_NBR;
         } else {password = pass;}
         reference.child(user).child("profile").child("password").setValue(password);
-        Helper.toast_error(context, Constants.txt_registration_successful);
+        Helper.toastError(context, Constants.TXT_REGISTRATION_SUCCESSFUL);
     }
 
     /*
     * check username constraints
     */
-    protected static String check_username_validity(final String username) {
-        String error_message = "";
+    protected static String checkUsernameValidity(final String username) {
+        String errorMessage = "";
         if (username.equals("")) {
-            error_message = Constants.txt_error_field_required;
+            errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;
         } else if (!username.matches("[A-Za-z0-9]+")) {
-            error_message = Constants.txt_error_alpha_or_number_only;
+            errorMessage = Constants.TXT_ERROR_ALPHA_OR_NUMBER_ONLY;
         } else if (username.length() < 5) {
-            error_message = Constants.txt_error_short_username;
+            errorMessage = Constants.TXT_ERROR_SHORT_USERNAME;
         }
-        return error_message;
+        return errorMessage;
     }
 
     /*
      * check password constraints
      */
-    protected static String check_password_validity(final String password) {
-        String error_message = "";
+    protected static String checkPasswordValidity(final String password) {
+        String errorMessage = "";
         if (password.equals("")) {
-            error_message = Constants.txt_error_field_required;
+            errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;
         } else if (password.length() < 5) {
-            error_message = Constants.txt_error_short_password;
+            errorMessage = Constants.TXT_ERROR_SHORT_PASSWORD;
         }
-        return error_message;
+        return errorMessage;
     }
 
     /*
     * Update latest received messages on screen
     */
-    protected static void add_message_box(Context context, LinearLayout layout,
-                                          final ScrollView scroll_view, String message, int type){
+    protected static void addMessageBox(Context context, LinearLayout layout,
+                                        final ScrollView scrollView, String message, int type){
         TextView textView = new TextView(context);
         textView.setText(message);
 
-        LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layout_params.weight = 1.0f;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.weight = 1.0f;
 
-        if(type == Constants.message_type_self) {
-            layout_params.gravity = Gravity.END;
+        if(type == Constants.MESSAGE_TYPE_SELF) {
+            layoutParams.gravity = Gravity.END;
             textView.setTextColor(context.getResources().getColor(R.color.colorBackgroundChat));
             textView.setBackgroundResource(R.drawable.bubble_right);
         }
         else{
-            layout_params.gravity = Gravity.START;
+            layoutParams.gravity = Gravity.START;
             textView.setTextColor(context.getResources().getColor(R.color.black));
             textView.setBackgroundResource(R.drawable.bubble_left);
         }
 
-        textView.setLayoutParams(layout_params);
+        textView.setLayoutParams(layoutParams);
         layout.addView(textView);
 
-        scroll_view.post(new Runnable() {
+        scrollView.post(new Runnable() {
             @Override
             public void run() {
-                scroll_view.fullScroll(ScrollView.FOCUS_DOWN);
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
         });
     }

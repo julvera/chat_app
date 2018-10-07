@@ -49,11 +49,11 @@ public class UserChatActivity extends AppCompatActivity {
 
                 //TODO : Add timestamp for each message
 
-                int type = Constants.message_type_self; //message from us
+                int type = Constants.MESSAGE_TYPE_SELF; //message from us
                 if(!username.equals(UserDetails.username)){ //message from someone else
-                    type = Constants.message_type_other;
+                    type = Constants.MESSAGE_TYPE_OTHER;
                 }
-                Helper.add_message_box(UserChatActivity.this, layout, scroll_view, message, type);
+                Helper.addMessageBox(UserChatActivity.this, layout, scroll_view, message, type);
             }
 
             @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}

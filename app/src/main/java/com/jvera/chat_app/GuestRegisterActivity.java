@@ -20,7 +20,7 @@ import butterknife.OnClick;
 public class GuestRegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "Debug" ;
-    @BindView(R.id.pseudo_guest) EditText pseudo_guest;
+    @BindView(R.id.pseudo_guest) EditText pseudoGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class GuestRegisterActivity extends AppCompatActivity {
     public void setOnClickGuestRegisterEvents(View v) {
         switch(v.getId()) {
             case R.id.login_guest_btn:
-                if (register_click_action()) {
+                if (registerClickAction()) {
                     startActivity(new Intent(this, GuestChatActivity.class));
                 }
                 break;
@@ -46,19 +46,19 @@ public class GuestRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean register_click_action() {
+    private boolean registerClickAction() {
         boolean ret = false;
-        String guest_username = pseudo_guest.getText().toString();
-        String invalid_username_reason = Helper.check_username_validity(guest_username);
+        String guestUsername = pseudoGuest.getText().toString();
+        String invalidUsernameReason = Helper.checkUsernameValidity(guestUsername);
 
-        if (!"".equals(invalid_username_reason)) {
-            pseudo_guest.setError(invalid_username_reason);
+        if (!"".equals(invalidUsernameReason)) {
+            pseudoGuest.setError(invalidUsernameReason);
         } else {
-            GuestDetails.username = guest_username;
-            StringRequest request = Helper.db_add_credentials(
+            GuestDetails.username = guestUsername;
+            StringRequest request = Helper.dbAddCredentials(
                 GuestRegisterActivity.this,
-                Constants.api_url_guests_usernames,
-                guest_username,
+                Constants.API_URL_GUESTS_USERNAMES,
+                guestUsername,
                 null //no password for guests
             );
             RequestQueue rQueue = Volley.newRequestQueue(this);

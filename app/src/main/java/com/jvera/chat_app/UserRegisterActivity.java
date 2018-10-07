@@ -41,7 +41,7 @@ public class UserRegisterActivity extends AppCompatActivity {
                 break;
 
             case R.id.register_btn:
-                if (register_click_action()) {
+                if (registerClickAction()) {
                     startActivity(new Intent(this, LoginActivity.class));
                 }
                 break;
@@ -52,21 +52,21 @@ public class UserRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean register_click_action() {
+    private boolean registerClickAction() {
         boolean ret = false;
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString();
-        String invalid_user_reason = Helper.check_username_validity(user);
-        String invalid_pass_reason = Helper.check_password_validity(pass);
+        String invalidUserReason = Helper.checkUsernameValidity(user);
+        String invalidPassReason = Helper.checkPasswordValidity(pass);
 
-        if (!"".equals(invalid_user_reason)) {
-            login.setError(invalid_user_reason);
-        } else if (!"".equals(invalid_pass_reason)) {
-            password.setError(invalid_pass_reason);
+        if (!"".equals(invalidUserReason)) {
+            login.setError(invalidUserReason);
+        } else if (!"".equals(invalidPassReason)) {
+            password.setError(invalidPassReason);
         } else {
-            StringRequest request = Helper.db_add_credentials(
+            StringRequest request = Helper.dbAddCredentials(
                 UserRegisterActivity.this,
-                Constants.api_url_users_usernames,
+                Constants.API_URL_USERS_USERNAMES,
                 user,
                 pass
             );

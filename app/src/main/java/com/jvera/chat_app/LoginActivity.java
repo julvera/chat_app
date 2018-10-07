@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     public void setOnClickLoginEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
-                login_click_action();
+                loginClickAction();
                 break;
 
             case R.id.register_btn:
@@ -60,48 +60,48 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void login_click_action() {
+    private void loginClickAction() {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString(); //IDE whining for no damn reason
-        TextView Error_pop = findViewById(R.id.Error_pop);
+        TextView errorPop = findViewById(R.id.Error_pop);
 
         if(user.isEmpty() || pass.isEmpty()){
-            Error_pop.setVisibility(View.VISIBLE);
+            errorPop.setVisibility(View.VISIBLE);
         }
         else {
-            Error_pop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
-            StringRequest request = db_check_credentials(user, pass);
+            errorPop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
+            StringRequest request = dbCheckCredentials(user, pass);
             RequestQueue rQueue = Volley.newRequestQueue(this);
             rQueue.add(request);
         }
     }
 
-    private StringRequest db_check_credentials (final String user, final String pass) {
-        final ProgressDialog prog_dial = new ProgressDialog(this);
-        prog_dial.setMessage("Loading...");
-        prog_dial.show();
+    private StringRequest dbCheckCredentials(final String user, final String pass) {
+        final ProgressDialog progDial = new ProgressDialog(this);
+        progDial.setMessage("Loading...");
+        progDial.show();
 
         Response.Listener<String> response_listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 if (s.equals("null")) {
-                    Helper.toast_error(LoginActivity.this, Constants.txt_error_user_not_found);
+                    Helper.toastError(LoginActivity.this, Constants.TXT_ERROR_USER_NOT_FOUND);
                 } else {
                     try {
                         JSONObject obj = new JSONObject(s);
 
                         if (!obj.has(user)) {
-                            Helper.toast_error(LoginActivity.this, Constants.txt_error_user_not_found);
+                            Helper.toastError(LoginActivity.this, Constants.TXT_ERROR_USER_NOT_FOUND);
                         } else if (obj.getJSONObject(user).getJSONObject("profile").getString("password").equals(pass)) {
                             UserDetails.username = user;
                             UserDetails.password = pass;
                             startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
                         } else {
-                            Helper.toast_error(LoginActivity.this, Constants.txt_error_incorrect_password);
+                            Helper.toastError(LoginActivity.this, Constants.TXT_ERROR_INCORRECT_PASSWORD);
                         }
                     } catch (JSONException e) {e.printStackTrace();}
                 }
-                prog_dial.dismiss();
+                progDial.dismiss();
             }
         };
 
@@ -109,13 +109,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 System.out.println("" + volleyError);
-                prog_dial.dismiss();
+                progDial.dismiss();
             }
         };
 
         return new StringRequest(
             Request.Method.GET,
-            Constants.api_url_users_usernames_json,
+            Constants.API_URL_USERS_USERNAMES_JSON,
             response_listener,
             error_listener
         );

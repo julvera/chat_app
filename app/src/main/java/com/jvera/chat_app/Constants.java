@@ -6,26 +6,26 @@ public class Constants {
     /*
     * Text strings for toasts pop-ups mainly
     */
-    protected static String txt_registration_successful = "Registration successful";
-    protected static String txt_error_user_exists = "username already exists";
-    protected static String txt_error_field_required = "This field is required";
-    protected static String txt_error_alpha_or_number_only = "only alphabet or number allowed";
-    protected static String txt_error_short_password = "This password is too short";
-    protected static String txt_error_short_username = "This username is too short";
-    protected static String txt_error_user_not_found = "user not found";
-    protected static String txt_error_incorrect_password = "This password is incorrect";
+    protected static String TXT_REGISTRATION_SUCCESSFUL = "Registration successful";
+    protected static String TXT_ERROR_USER_EXISTS = "username already exists";
+    protected static String TXT_ERROR_FIELD_REQUIRED = "This field is required";
+    protected static String TXT_ERROR_ALPHA_OR_NUMBER_ONLY = "only alphabet or number allowed";
+    protected static String TXT_ERROR_SHORT_PASSWORD = "This password is too short";
+    protected static String TXT_ERROR_SHORT_USERNAME = "This username is too short";
+    protected static String TXT_ERROR_USER_NOT_FOUND = "user not found";
+    protected static String TXT_ERROR_INCORRECT_PASSWORD = "This password is incorrect";
 
     /*
      * api urls string constants
      */
-    protected static String api_url_users_usernames = "https://chat-app-f7685.firebaseio.com/users/usernames";
-    protected static String api_url_users_usernames_json = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
-    protected static String api_url_guests_usernames = "https://chat-app-f7685.firebaseio.com/guests/usernames";
-    protected static String api_url_guests_messages = "https://chat-app-f7685.firebaseio.com/guests/messages";
+    protected static String API_URL_USERS_USERNAMES = "https://chat-app-f7685.firebaseio.com/users/usernames";
+    protected static String API_URL_USERS_USERNAMES_JSON = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
+    protected static String API_URL_GUESTS_USERNAMES = "https://chat-app-f7685.firebaseio.com/guests/usernames";
+    protected static String API_URL_GUESTS_MESSAGES = "https://chat-app-f7685.firebaseio.com/guests/messages";
 
     /*
     * Message type Constants
     */
-    protected static int message_type_self = 1;
-    protected static int message_type_other = 2;
+    protected static int MESSAGE_TYPE_SELF = 1;
+    protected static int MESSAGE_TYPE_OTHER = 2;
 }

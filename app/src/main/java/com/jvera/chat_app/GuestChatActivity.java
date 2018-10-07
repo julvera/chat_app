@@ -24,10 +24,10 @@ import butterknife.OnClick;
 public class GuestChatActivity extends AppCompatActivity {
     private static final String TAG = "Debug" ;
     @BindView(R.id.layout1) LinearLayout layout;
-    @BindView(R.id.messageArea) EditText message_area;
-    @BindView(R.id.scrollView) ScrollView scroll_view;
+    @BindView(R.id.messageArea) EditText messageArea;
+    @BindView(R.id.scrollView) ScrollView scrollView;
 
-    Firebase ref_guests_messages;
+    Firebase refGuestsMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,9 @@ public class GuestChatActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate GuestChatActivity");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
-        ref_guests_messages = new Firebase(Constants.api_url_guests_messages);
+        refGuestsMessages = new Firebase(Constants.API_URL_GUESTS_MESSAGES);
 
-        ref_guests_messages.addChildEventListener(new ChildEventListener() {
+        refGuestsMessages.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
@@ -47,12 +47,12 @@ public class GuestChatActivity extends AppCompatActivity {
 
                 //TODO : Add timestamp for each message
 
-                int type = Constants.message_type_self; //message from us
+                int type = Constants.MESSAGE_TYPE_SELF; //message from us
                 if(!username.equals(GuestDetails.username)){ //message from someone else
-                    type = Constants.message_type_other;
+                    type = Constants.MESSAGE_TYPE_OTHER;
                     message = username + ": " + message;
                 }
-                Helper.add_message_box(GuestChatActivity.this, layout, scroll_view, message, type);
+                Helper.addMessageBox(GuestChatActivity.this, layout, scrollView, message, type);
             }
 
             @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
@@ -64,14 +64,14 @@ public class GuestChatActivity extends AppCompatActivity {
 
     @OnClick(R.id.sendButton)
     public void onClick(View v) {
-        String messageText = message_area.getText().toString();
+        String messageText = messageArea.getText().toString();
 
         if(!messageText.equals("")){
             Map<String, String> map = new HashMap<>();
             map.put("message", messageText);
             map.put("user", GuestDetails.username);
-            ref_guests_messages.push().setValue(map);
-            message_area.setText("");
+            refGuestsMessages.push().setValue(map);
+            messageArea.setText("");
         }
     }
 }

@@ -33,8 +33,8 @@ public class UserHomeActivity extends AppCompatActivity {
     @BindView(R.id.usersList) ListView usersList;
     @BindView(R.id.noUsersText) TextView noUsersText;
 
-    ArrayList<String> discussions_list = new ArrayList<>();
-    ProgressDialog prog_dial;
+    ArrayList<String> discussionsList = new ArrayList<>();
+    ProgressDialog progDial;
     private int totalUsers = 0;
 
     @Override
@@ -44,27 +44,27 @@ public class UserHomeActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate UserHomeActivity");
         ButterKnife.bind(this);
 
-        StringRequest request = db_get_discussions();
+        StringRequest request = dbGetDiscussions();
         RequestQueue rQueue = Volley.newRequestQueue(this);
         rQueue.add(request);
 
         usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                UserDetails.chat_with = discussions_list.get(position);
+                UserDetails.chat_with = discussionsList.get(position);
                 startActivity(new Intent(UserHomeActivity.this, UserChatActivity.class));
             }
         });
     }
 
-    private StringRequest db_get_discussions(){
-        prog_dial = new ProgressDialog(this);
-        prog_dial.setMessage("Loading...");
-        prog_dial.show();
+    private StringRequest dbGetDiscussions(){
+        progDial = new ProgressDialog(this);
+        progDial.setMessage("Loading...");
+        progDial.show();
         Response.Listener<String> response_listener = new Response.Listener<String>(){
             @Override
             public void onResponse(String s) {
-                get_contact_discussions(s);
+                getContactDiscussions(s);
             }
         };
 
@@ -77,13 +77,13 @@ public class UserHomeActivity extends AppCompatActivity {
 
         return new StringRequest(
             Request.Method.GET,
-            Constants.api_url_users_usernames_json,
+            Constants.API_URL_USERS_USERNAMES_JSON,
             response_listener,
             error_listener
         );
     }
 
-    public void get_contact_discussions(String s){
+    public void getContactDiscussions(String s){
         try {
             JSONObject obj = new JSONObject(s);
             Iterator i = obj.keys();
@@ -91,7 +91,8 @@ public class UserHomeActivity extends AppCompatActivity {
 
             while(i.hasNext()){
                 key = i.next().toString();
-                if(!key.equals(UserDetails.username)) {discussions_list.add(key);}
+                if(!key.equals(UserDetails.username)) {
+                    discussionsList.add(key);}
                 totalUsers++;
             }
         } catch (JSONException e) {e.printStackTrace();}
@@ -104,10 +105,10 @@ public class UserHomeActivity extends AppCompatActivity {
             noUsersText.setVisibility(View.GONE);
             usersList.setVisibility(View.VISIBLE);
             usersList.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_list_item_1, discussions_list
+                this, android.R.layout.simple_list_item_1, discussionsList
             ));
         }
-        prog_dial.dismiss();
+        progDial.dismiss();
     }
 
     @Override
