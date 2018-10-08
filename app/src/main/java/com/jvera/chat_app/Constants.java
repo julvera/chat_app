@@ -12,14 +12,14 @@ public class Constants {
     protected static String TXT_ERROR_ALPHA_OR_NUMBER_ONLY = "only alphabet or number allowed";
     protected static String TXT_ERROR_SHORT_PASSWORD = "This password is too short";
     protected static String TXT_ERROR_SHORT_USERNAME = "This username is too short";
-    protected static String TXT_ERROR_USER_NOT_FOUND = "user not found";
-    protected static String TXT_ERROR_INCORRECT_PASSWORD = "This password is incorrect";
+    public static String TXT_ERROR_USER_NOT_FOUND = "user not found";
+    public static String TXT_ERROR_INCORRECT_PASSWORD = "This password is incorrect";
 
     /*
      * api urls string constants
      */
     protected static String API_URL_USERS_USERNAMES = "https://chat-app-f7685.firebaseio.com/users/usernames";
-    protected static String API_URL_USERS_USERNAMES_JSON = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
+    public static String API_URL_USERS_USERNAMES_JSON = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
     protected static String API_URL_GUESTS_USERNAMES = "https://chat-app-f7685.firebaseio.com/guests/usernames";
     protected static String API_URL_GUESTS_MESSAGES = "https://chat-app-f7685.firebaseio.com/guests/messages";
 

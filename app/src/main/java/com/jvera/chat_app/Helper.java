@@ -2,6 +2,7 @@ package com.jvera.chat_app;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -40,9 +41,16 @@ public class Helper {
     }
 
     /*
+    * Start activities without calling `new Intent` everywhere
+    */
+    public static void activityStarter(Context context, Class newActivityClass) {
+        context.startActivity(new Intent(context, newActivityClass));
+    }
+
+    /*
     * Toast helper
     */
-    protected static void toastError(Context context, final String error_msg){
+    public static void toastError(Context context, final String error_msg){
         Toast.makeText(context, error_msg, Toast.LENGTH_LONG).show();
     }
 

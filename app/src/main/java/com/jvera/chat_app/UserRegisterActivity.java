@@ -1,9 +1,8 @@
 package com.jvera.chat_app;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -37,12 +36,13 @@ public class UserRegisterActivity extends AppCompatActivity {
     public void setOnClickUserRegisterEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(LoginActivity.class);
                 break;
 
             case R.id.register_btn:
                 if (registerClickAction()) {
-                    startActivity(new Intent(this, LoginActivity.class));
+                    startActivity(LoginActivity.class);
+                    //TODO auto-login when registering????
                 }
                 break;
 
@@ -50,6 +50,11 @@ public class UserRegisterActivity extends AppCompatActivity {
                 // Shouldn't get here
                 break;
         }
+    }
+
+    //slight overkill but .. just because we can
+    private void startActivity(Class newActivityClass) {
+        Helper.activityStarter(this, newActivityClass);
     }
 
     private boolean registerClickAction() {

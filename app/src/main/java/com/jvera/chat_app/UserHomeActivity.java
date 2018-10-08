@@ -1,7 +1,6 @@
 package com.jvera.chat_app;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -52,7 +51,7 @@ public class UserHomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserDetails.chat_with = discussionsList.get(position);
-                startActivity(new Intent(UserHomeActivity.this, UserChatActivity.class));
+                Helper.activityStarter(UserHomeActivity.this, UserChatActivity.class);
             }
         });
     }

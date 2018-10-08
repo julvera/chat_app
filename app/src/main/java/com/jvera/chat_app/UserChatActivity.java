@@ -64,7 +64,7 @@ public class UserChatActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.sendButton)
-    public void onClick(View v) {
+    public void sendMessage(View v) {
         String messageText = message_area.getText().toString();
 
         if(!messageText.equals("")){

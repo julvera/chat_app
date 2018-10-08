@@ -1,7 +1,5 @@
 package com.jvera.chat_app;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,22 +8,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.android.volley.VolleyError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.jvera.chat_app.database_access.CredsValidationInterface;
+import com.jvera.chat_app.database_access.Database;
+import com.jvera.chat_app.database_access.DbHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements CredsValidationInterface {
 
     final static private String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.login) EditText login;
@@ -43,15 +35,15 @@ public class LoginActivity extends AppCompatActivity {
     public void setOnClickLoginEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
-                loginClickAction();
+                verifyLoginValidity();
                 break;
 
             case R.id.register_btn:
-                startActivity(new Intent(this, UserRegisterActivity.class));
+                startActivity(UserRegisterActivity.class);
                 break;
 
             case R.id.guest_btn:
-                startActivity(new Intent(this, GuestRegisterActivity.class));
+                startActivity(GuestRegisterActivity.class);
                 break;
 
             default:
@@ -60,7 +52,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void loginClickAction() {
+    //slight overkill but .. just because we can
+    private void startActivity(Class newActivityClass) {
+        Helper.activityStarter(this, newActivityClass);
+    }
+
+    private void verifyLoginValidity() {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString(); //IDE whining for no damn reason
         TextView errorPop = findViewById(R.id.Error_pop);
@@ -70,55 +67,17 @@ public class LoginActivity extends AppCompatActivity {
         }
         else {
             errorPop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
-            StringRequest request = dbCheckCredentials(user, pass);
-            RequestQueue rQueue = Volley.newRequestQueue(this);
-            rQueue.add(request);
+            Database.isValidCredentials(
+                this,
+                user,
+                pass,
+                DbHelper.generateCallback(this) //damned trick
+            );
         }
     }
 
-    private StringRequest dbCheckCredentials(final String user, final String pass) {
-        final ProgressDialog progDial = new ProgressDialog(this);
-        progDial.setMessage("Loading...");
-        progDial.show();
-
-        Response.Listener<String> response_listener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                if (s.equals("null")) {
-                    Helper.toastError(LoginActivity.this, Constants.TXT_ERROR_USER_NOT_FOUND);
-                } else {
-                    try {
-                        JSONObject obj = new JSONObject(s);
-
-                        if (!obj.has(user)) {
-                            Helper.toastError(LoginActivity.this, Constants.TXT_ERROR_USER_NOT_FOUND);
-                        } else if (obj.getJSONObject(user).getJSONObject("profile").getString("password").equals(pass)) {
-                            UserDetails.username = user;
-                            UserDetails.password = pass;
-                            startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
-                        } else {
-                            Helper.toastError(LoginActivity.this, Constants.TXT_ERROR_INCORRECT_PASSWORD);
-                        }
-                    } catch (JSONException e) {e.printStackTrace();}
-                }
-                progDial.dismiss();
-            }
-        };
-
-        Response.ErrorListener error_listener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                System.out.println("" + volleyError);
-                progDial.dismiss();
-            }
-        };
-
-        return new StringRequest(
-            Request.Method.GET,
-            Constants.API_URL_USERS_USERNAMES_JSON,
-            response_listener,
-            error_listener
-        );
+    public void actionOnValidCredentials() {
+        startActivity(UserHomeActivity.class);
     }
 
     @Override
