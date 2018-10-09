@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
     final static private String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.login) EditText login;
     @BindView(R.id.password) TextInputLayout password;
+    @BindView(R.id.Error_pop) TextView errorPop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,9 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
         setContentView(R.layout.activity_login);
         Log.i(TAG, "onCreate");
         ButterKnife.bind(this);
+        if (!UserDetails.username.equals("")) {
+            login.setText(UserDetails.username);
+        }
     }
 
     @OnClick({R.id.register_btn, R.id.login_btn, R.id.guest_btn})
@@ -57,25 +61,26 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
         Helper.activityStarter(this, newActivityClass);
     }
 
+    /** Checks basic user and pass validity then calls DB to see the user exists*/
     private void verifyLoginValidity() {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString(); //IDE whining for no damn reason
-        TextView errorPop = findViewById(R.id.Error_pop);
 
         if(user.isEmpty() || pass.isEmpty()){
             errorPop.setVisibility(View.VISIBLE);
         }
         else {
             errorPop.setVisibility(View.INVISIBLE); // For appearance on 2nd attempt with usr & pass
-            Database.isValidCredentials(
+            Database.verifyUserCredentials(
                 this,
+                DbHelper.generateCallback(this), //damned trick
                 user,
-                pass,
-                DbHelper.generateCallback(this) //damned trick
+                pass
             );
         }
     }
 
+    /** To do list of things if credentials are validated*/
     public void actionOnValidCredentials() {
         startActivity(UserHomeActivity.class);
     }

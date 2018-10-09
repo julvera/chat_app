@@ -6,20 +6,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
+import com.jvera.chat_app.database_access.CredsValidationInterface;
+import com.jvera.chat_app.database_access.Database;
+import com.jvera.chat_app.database_access.DbHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GuestRegisterActivity extends AppCompatActivity {
+public class GuestRegisterActivity extends AppCompatActivity implements CredsValidationInterface {
 
     private static final String TAG = "Debug" ;
     @BindView(R.id.pseudo_guest) EditText pseudoGuest;
+    String guestUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,7 @@ public class GuestRegisterActivity extends AppCompatActivity {
     public void setOnClickGuestRegisterEvents(View v) {
         switch(v.getId()) {
             case R.id.login_guest_btn:
-                if (registerClickAction()) {
-                    Helper.activityStarter(this, GuestChatActivity.class);
-                }
+                registerClickAction();
                 break;
 
             default:
@@ -45,55 +44,27 @@ public class GuestRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean registerClickAction() {
-        boolean ret = false;
-        String guestUsername = pseudoGuest.getText().toString();
+    /** Checks basic username validity then calls DB to add */
+    private void registerClickAction() {
+        guestUsername = pseudoGuest.getText().toString();
         String invalidUsernameReason = Helper.checkUsernameValidity(guestUsername);
 
         if (!"".equals(invalidUsernameReason)) {
             pseudoGuest.setError(invalidUsernameReason);
         } else {
-            GuestDetails.username = guestUsername;
-            StringRequest request = Helper.dbAddCredentials(
-                GuestRegisterActivity.this,
+            Database.addCredentials(
+                this,
+                DbHelper.generateCallback(this), //damned trick
                 Constants.API_URL_GUESTS_USERNAMES,
                 guestUsername,
                 null //no password for guests
             );
-            RequestQueue rQueue = Volley.newRequestQueue(this);
-            rQueue.add(request);
-            ret = true;
         }
-        return ret;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG,"onStart GuestRegisterActivity");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG,"onResume GuestRegisterActivity");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG,"onPause GuestRegisterActivity");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG,"onStop GuestRegisterActivity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG,"onDestroy GuestRegisterActivity");
+    /** To do list if credentials are validated*/
+    public void actionOnValidCredentials() {
+        Helper.toastAnnounce(this, Constants.TXT_REGISTRATION_SUCCESSFUL_WELCOME + guestUsername + "!");
+        Helper.activityStarter(this, GuestChatActivity.class);
     }
 }

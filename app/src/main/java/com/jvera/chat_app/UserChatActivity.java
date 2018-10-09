@@ -8,13 +8,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.jvera.chat_app.database_access.Database;
+import com.jvera.chat_app.database_access.DbHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +20,10 @@ import butterknife.OnClick;
 public class UserChatActivity extends AppCompatActivity {
     private static final String TAG = "Debug" ;
     @BindView(R.id.layout1) LinearLayout layout;
-    @BindView(R.id.messageArea) EditText message_area;
-    @BindView(R.id.scrollView) ScrollView scroll_view;
+    @BindView(R.id.messageArea) EditText messageArea;
+    @BindView(R.id.scrollView) ScrollView scrollView;
 
-    Firebase ref_user_friend, ref_friend_user;
+    Firebase refUserFriend, refFriendUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,45 +32,21 @@ public class UserChatActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate UserChatActivity");
         ButterKnife.bind(this);
 
-        Firebase.setAndroidContext(this);
-        ref_user_friend = new Firebase(Helper.api_url_user_messages_friend());
-        ref_friend_user = new Firebase(Helper.api_url_friend_messages_user());
-
-        ref_user_friend.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
-                String message = map.get("message").toString();
-                String username = map.get("user").toString();
-
-                //TODO : Add timestamp for each message
-
-                int type = Constants.MESSAGE_TYPE_SELF; //message from us
-                if(!username.equals(UserDetails.username)){ //message from someone else
-                    type = Constants.MESSAGE_TYPE_OTHER;
-                }
-                Helper.addMessageBox(UserChatActivity.this, layout, scroll_view, message, type);
-            }
-
-            @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-            @Override public void onChildRemoved(DataSnapshot dataSnapshot) {}
-            @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override public void onCancelled(FirebaseError firebaseError) {}
-        });
+        refFriendUser = DbHelper.generateFirebaseReference(Helper.api_url_friend_messages_user());
+        refUserFriend = Database.referenceMessages(
+            this,
+            Helper.api_url_user_messages_friend(),
+            layout,
+            scrollView,
+            true //user chat is private
+        );
     }
 
+    /** Send messages!*/
     @OnClick(R.id.sendButton)
     public void sendMessage(View v) {
-        String messageText = message_area.getText().toString();
+        Database.sendMessages(messageArea, refUserFriend, refFriendUser);
 
-        if(!messageText.equals("")){
-            Map<String, String> map = new HashMap<>();
-            map.put("message", messageText);
-            map.put("user", UserDetails.username);
-            ref_user_friend.push().setValue(map);
-            ref_friend_user.push().setValue(map);
-            message_area.setText("");
-        }
     }
 
     @Override

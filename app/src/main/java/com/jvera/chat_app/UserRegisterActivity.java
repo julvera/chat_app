@@ -7,17 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
+import com.jvera.chat_app.database_access.CredsValidationInterface;
+import com.jvera.chat_app.database_access.Database;
+import com.jvera.chat_app.database_access.DbHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class UserRegisterActivity extends AppCompatActivity {
+public class UserRegisterActivity extends AppCompatActivity implements CredsValidationInterface {
 
     final static private String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.login) EditText login;
@@ -36,14 +36,11 @@ public class UserRegisterActivity extends AppCompatActivity {
     public void setOnClickUserRegisterEvents(View v) {
         switch(v.getId()) {
             case R.id.login_btn:
-                startActivity(LoginActivity.class);
+                startLoginActivity();
                 break;
 
             case R.id.register_btn:
-                if (registerClickAction()) {
-                    startActivity(LoginActivity.class);
-                    //TODO auto-login when registering????
-                }
+                registerClickAction();
                 break;
 
             default:
@@ -53,12 +50,12 @@ public class UserRegisterActivity extends AppCompatActivity {
     }
 
     //slight overkill but .. just because we can
-    private void startActivity(Class newActivityClass) {
-        Helper.activityStarter(this, newActivityClass);
+    private void startLoginActivity() {
+        Helper.activityStarter(this, LoginActivity.class);
     }
 
-    private boolean registerClickAction() {
-        boolean ret = false;
+    /** Basic check on credentials then call to DB to add*/
+    private void registerClickAction() {
         String user = login.getText().toString();
         String pass = password.getEditText().getText().toString();
         String invalidUserReason = Helper.checkUsernameValidity(user);
@@ -69,46 +66,19 @@ public class UserRegisterActivity extends AppCompatActivity {
         } else if (!"".equals(invalidPassReason)) {
             password.setError(invalidPassReason);
         } else {
-            StringRequest request = Helper.dbAddCredentials(
-                UserRegisterActivity.this,
+            Database.addCredentials(
+                this,
+                DbHelper.generateCallback(this), //damned trick
                 Constants.API_URL_USERS_USERNAMES,
                 user,
                 pass
             );
-            RequestQueue rQueue = Volley.newRequestQueue(this);
-            rQueue.add(request);
-            ret = true;
         }
-        return ret;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG,"onStart UserRegisterActivity");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG,"onResume UserRegisterActivity");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG,"onPause UserRegisterActivity");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG,"onStop UserRegisterActivity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG,"onDestroy UserRegisterActivity");
+    /** To do list of things if credentials are valid*/
+    public void actionOnValidCredentials() {
+        Helper.toastAnnounce(this, Constants.TXT_REGISTRATION_SUCCESSFUL);
+        startLoginActivity();
     }
 }
