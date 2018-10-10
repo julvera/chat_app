@@ -46,6 +46,7 @@ public class UserChatActivity extends AppCompatActivity {
     @OnClick(R.id.sendButton)
     public void sendMessage(View v) {
         Database.sendMessages(messageArea, refUserFriend, refFriendUser);
+
     }
 
     @Override

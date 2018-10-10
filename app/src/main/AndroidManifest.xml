@@ -10,12 +10,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/chatapp_logo"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/chatapp_logo_round"
+        android:icon="@drawable/icone"
+        android:label="That Chat"
+        android:roundIcon="@drawable/icone"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
