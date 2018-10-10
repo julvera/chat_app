@@ -26,6 +26,7 @@ public class DbHelper {
     private static final int GUEST_PASSWORD_NBR = RAND.nextInt(100); //random between 0 and 100
     private static ProgressDialog progDial;
 
+    /** Avoid calls to `new Firebase(string_url)` in all non database-related files*/
     public static Firebase generateFirebaseReference(String url) {
         return new Firebase(url);
     }
@@ -49,18 +50,16 @@ public class DbHelper {
     */
     private static void setUserGuestPassword(Firebase reference, final String user,
                                              final String pass) {
-        String password;
         if (pass == null) {
             //////Guest
-            password = "G_" + user + "_" + GUEST_PASSWORD_NBR;
+            String password = "G_" + user + "_" + GUEST_PASSWORD_NBR;
             reference.child(user).child("password").setValue(password); // Guests don't have profile
             GuestDetails.username = user;
         } else {
             //////User
-            password = pass;
-            reference.child(user).child("profile").child("password").setValue(password);
+            reference.child(user).child("profile").child("password").setValue(pass);
             UserDetails.username = user;
-            UserDetails.password = password;
+            UserDetails.password = pass;
         }
     }
 
@@ -99,7 +98,9 @@ public class DbHelper {
         };
     }
 
-    /** To do things when the database is empty whether we are logging or registering */
+    /**
+     * To do things when the database is empty whether we are logging or registering
+     */
     private static boolean actionOnEmptyDatabase(Context context, Firebase reference, String user,
                                                  String pass, boolean isAdding) {
         boolean isAddedCredentials = false;
@@ -140,9 +141,7 @@ public class DbHelper {
         return grantAccess;
     }
 
-    /**
-     * Add request to the queue as by protocol
-     */
+    /** Add request to the queue as by protocol*/
     static void addRequestQueue(Context context, String url,
                                 Response.Listener<String> responseListener) {
         Response.ErrorListener errorListener = generateErrorListener();
