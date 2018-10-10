@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         Log.i(TAG, "onCreate");
         ButterKnife.bind(this);
