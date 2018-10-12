@@ -31,17 +31,9 @@ public class GuestRegisterActivity extends AppCompatActivity implements CredsVal
         Firebase.setAndroidContext(this);
     }
 
-    @OnClick({R.id.login_guest_btn})
+    @OnClick(R.id.login_guest_btn)
     public void setOnClickGuestRegisterEvents(View v) {
-        switch(v.getId()) {
-            case R.id.login_guest_btn:
-                registerClickAction();
-                break;
-
-            default:
-                // Shouldn't get here
-                break;
-        }
+        registerClickAction();
     }
 
     /** Checks basic username validity then calls DB to add */

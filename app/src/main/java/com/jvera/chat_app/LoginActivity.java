@@ -36,25 +36,17 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
         }
     }
 
-    @OnClick({R.id.register_btn, R.id.login_btn, R.id.guest_btn})
+    @OnClick(R.id.login_btn)
     public void setOnClickLoginEvents(View v) {
-        switch(v.getId()) {
-            case R.id.login_btn:
-                verifyLoginValidity();
-                break;
-
-            case R.id.register_btn:
-                startActivity(UserRegisterActivity.class);
-                break;
-
-            case R.id.guest_btn:
-                startActivity(GuestRegisterActivity.class);
-                break;
-
-            default:
-                // Shouldn't get here
-                break;
-        }
+        verifyLoginValidity();
+    }
+    @OnClick(R.id.guest_btn)
+    public void setOnClickGuestEvents(View v) {
+        startActivity(GuestRegisterActivity.class);
+    }
+    @OnClick(R.id.register_btn)
+    public void setOnClickRegisterEvents(View v) {
+        startActivity(UserRegisterActivity.class);
     }
 
     //slight overkill but .. just because we can

@@ -32,23 +32,15 @@ public class UserRegisterActivity extends AppCompatActivity implements CredsVali
         Firebase.setAndroidContext(this);
     }
 
-    @OnClick({R.id.register_btn, R.id.login_btn})
-    public void setOnClickUserRegisterEvents(View v) {
-        switch(v.getId()) {
-            case R.id.login_btn:
-                startLoginActivity();
-                break;
-
-            case R.id.register_btn:
-                registerClickAction();
-                break;
-
-            default:
-                // Shouldn't get here
-                break;
-        }
+    @OnClick(R.id.register_btn)
+    public void setOnClickUserRegisterEvent(View v) {
+        registerClickAction();
     }
 
+    @OnClick(R.id.login_btn)
+    public void setOnClickLoginEvent(View v) {
+        startLoginActivity();
+    }
     //slight overkill but .. just because we can
     private void startLoginActivity() {
         Helper.activityStarter(this, LoginActivity.class);

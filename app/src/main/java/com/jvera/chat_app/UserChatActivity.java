@@ -1,6 +1,10 @@
 package com.jvera.chat_app;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,16 +16,19 @@ import com.firebase.client.Firebase;
 import com.jvera.chat_app.database_access.Database;
 import com.jvera.chat_app.database_access.DbHelper;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class UserChatActivity extends AppCompatActivity {
-    private static final String TAG = "Debug" ;
     @BindView(R.id.layout1) LinearLayout layout;
     @BindView(R.id.messageArea) EditText messageArea;
     @BindView(R.id.scrollView) ScrollView scrollView;
+    private static final String TAG = "Debug" ;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     Firebase refUserFriend, refFriendUser;
 
@@ -44,37 +51,44 @@ public class UserChatActivity extends AppCompatActivity {
 
     /** Send messages!*/
     @OnClick(R.id.sendButton)
-    public void sendMessage(View v) {
+    public void onClickSendActions(View v) {
         Database.sendMessages(messageArea, refUserFriend, refFriendUser);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG,"onStart UserChatActivity");
+    /** Use camera*/
+    @OnClick(R.id.cameraButton)
+    public void onClickCameraActions(View v) {
+        //TODO something?
+    }
+
+    /** browse gallery to send pictures*/
+    @OnClick(R.id.galleryButton)
+    public void onClickGalleryActions(View v) {
+        chooseImage();
+    }
+
+    /** click on Gallery logic*/
+    private void chooseImage() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG,"onResume UserChatActivity");
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG,"onPause UserChatActivity");
-    }
+        if (data == null) {return;}
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG,"onStop UserChatActivity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG,"onDestroy UserChatActivity");
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK)
+        {
+            Uri filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //TODO: actually something
+//                imageView.setImageBitmap(bitmap);
+            }
+            catch (IOException e) {e.printStackTrace();}
+        }
     }
 }

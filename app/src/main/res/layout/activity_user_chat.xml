@@ -30,7 +30,7 @@
     </ScrollView>
 
     <include
-        layout="@layout/message_area"
+        layout="@layout/message_area_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"

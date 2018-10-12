@@ -10,6 +10,7 @@
     <string name="or">-- OR --</string>
     <string name="log_in">Log In!</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="write_message">"Write a message.."</string>
 
     <string name="guest">Sign In as Guest</string>
     <string name="text_guest">Let us know your Pseudo :</string>
@@ -24,5 +25,8 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="send_button_description">Send message</string>
+    <string name="camera_button_description">Take a picture</string>
+    <string name="gallery_button_description">Browse gallery</string>
+
 </resources>
