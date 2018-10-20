@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
 
     /** To do list of things if credentials are validated*/
     public void actionOnValidCredentials() {
-        startActivity(UserHomeActivity.class);
+        startActivity(UserHomePageActivity.class);
     }
 
     @Override
