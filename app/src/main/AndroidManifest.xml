@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,18 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserRegisterActivity" />
+        <activity android:name=".activity.UserRegisterActivity" />
         <activity
             android:name=".fragment.UserListFragment"
             android:theme="@style/AppTheme.SideMenu" />
         <activity
-            android:name=".ProfilFragment"
+            android:name=".fragment.ProfilFragment"
             android:theme="@style/AppTheme.SideMenu" />
-        <activity android:name=".UserChatActivity" />
-        <activity android:name=".GuestRegisterActivity" />
-        <activity android:name=".GuestChatActivity" />
+        <activity android:name=".activity.UserChatActivity" />
+        <activity android:name=".activity.GuestRegisterActivity" />
+        <activity android:name=".activity.GuestChatActivity" />
         <activity
-            android:name=".UserHomePageActivity"
+            android:name=".activity.UserHomePageActivity"
             android:label="@string/title_activity_user_home_page"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

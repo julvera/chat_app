@@ -1,4 +1,4 @@
-package com.jvera.chat_app;
+package com.jvera.chat_app.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.firebase.client.Firebase;
+import com.jvera.chat_app.Constants;
+import com.jvera.chat_app.R;
 import com.jvera.chat_app.database_access.Database;
 
 import butterknife.BindView;

@@ -1,4 +1,4 @@
-package com.jvera.chat_app;
+package com.jvera.chat_app.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.firebase.client.Firebase;
+import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.R;
 import com.jvera.chat_app.database_access.Database;
 import com.jvera.chat_app.database_access.DbHelper;
 
@@ -47,35 +49,5 @@ public class UserChatActivity extends AppCompatActivity {
     public void sendMessage(View v) {
         Database.sendMessages(messageArea, refUserFriend, refFriendUser);
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG,"onStart UserChatActivity");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG,"onResume UserChatActivity");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG,"onPause UserChatActivity");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG,"onStop UserChatActivity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG,"onDestroy UserChatActivity");
     }
 }

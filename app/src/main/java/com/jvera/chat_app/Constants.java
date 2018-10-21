@@ -19,9 +19,9 @@ public class Constants {
     /**
      * api urls string constants
      */
-    protected static String API_URL_USERS_USERNAMES = "https://chat-app-f7685.firebaseio.com/users/usernames";
+    public static String API_URL_USERS_USERNAMES = "https://chat-app-f7685.firebaseio.com/users/usernames";
     public static String API_URL_USERS_USERNAMES_JSON = "https://chat-app-f7685.firebaseio.com/users/usernames.json";
-    protected static String API_URL_GUESTS_USERNAMES = "https://chat-app-f7685.firebaseio.com/guests/usernames";
+    public static String API_URL_GUESTS_USERNAMES = "https://chat-app-f7685.firebaseio.com/guests/usernames";
     public static String API_URL_GUESTS_MESSAGES = "https://chat-app-f7685.firebaseio.com/guests/messages";
     public static String API_BASE_URL = "https://chat-app-f7685.firebaseio.com/";
 

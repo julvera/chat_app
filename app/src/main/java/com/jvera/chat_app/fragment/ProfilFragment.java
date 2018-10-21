@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.jvera.chat_app.Helper;
 import com.jvera.chat_app.R;
-import com.jvera.chat_app.UserDetails;
+import com.jvera.chat_app.models.UserDetails;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

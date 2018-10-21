@@ -12,16 +12,17 @@ import android.widget.Toast;
 
 import com.jvera.chat_app.fragment.ProfilFragment;
 import com.jvera.chat_app.fragment.UserListFragment;
+import com.jvera.chat_app.models.UserDetails;
 
 
 @SuppressWarnings("WeakerAccess")
 public class Helper {
 
     /** Api url generators*/
-    protected static String api_url_user_messages_friend () {
+    public static String api_url_user_messages_friend () {
         return urlGeneratorMessagesSenderReceiver(UserDetails.username, UserDetails.chat_with);
     }
-    protected static String api_url_friend_messages_user () {
+    public static String api_url_friend_messages_user () {
         return urlGeneratorMessagesSenderReceiver(UserDetails.chat_with, UserDetails.username);
     }
     private static String urlGeneratorMessagesSenderReceiver(String sender, String receiver) {
@@ -41,7 +42,7 @@ public class Helper {
     }
 
     /** Check username constraints*/
-    protected static String checkUsernameValidity(final String username) {
+    public static String checkUsernameValidity(final String username) {
         String errorMessage = "";
         if (username.equals("")) {
             errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;
@@ -54,7 +55,7 @@ public class Helper {
     }
 
     /** Check password constraints*/
-    protected static String checkPasswordValidity(final String password) {
+    public static String checkPasswordValidity(final String password) {
         String errorMessage = "";
         if (password.equals("")) {
             errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;

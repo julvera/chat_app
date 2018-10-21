@@ -1,4 +1,4 @@
-package com.jvera.chat_app;
+package com.jvera.chat_app.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.R;
 
 
 public class UserHomePageActivity extends AppCompatActivity
@@ -94,5 +97,4 @@ public class UserHomePageActivity extends AppCompatActivity
         }
         fragmentTransaction.commit();
     }
-
 }

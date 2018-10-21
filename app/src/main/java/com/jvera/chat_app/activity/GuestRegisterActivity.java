@@ -1,4 +1,4 @@
-package com.jvera.chat_app;
+package com.jvera.chat_app.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.firebase.client.Firebase;
+import com.jvera.chat_app.Constants;
+import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.R;
 import com.jvera.chat_app.database_access.CredsValidationInterface;
 import com.jvera.chat_app.database_access.Database;
 import com.jvera.chat_app.database_access.DbHelper;

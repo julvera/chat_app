@@ -21,8 +21,8 @@ import com.android.volley.toolbox.Volley;
 import com.jvera.chat_app.Constants;
 import com.jvera.chat_app.Helper;
 import com.jvera.chat_app.R;
-import com.jvera.chat_app.UserChatActivity;
-import com.jvera.chat_app.UserDetails;
+import com.jvera.chat_app.activity.UserChatActivity;
+import com.jvera.chat_app.models.UserDetails;
 
 import org.json.JSONException;
 import org.json.JSONObject;
