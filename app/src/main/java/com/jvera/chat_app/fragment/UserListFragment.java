@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.jvera.chat_app.Constants;
 import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.R;
 import com.jvera.chat_app.UserChatActivity;
 import com.jvera.chat_app.UserDetails;
 
@@ -35,8 +36,8 @@ import butterknife.ButterKnife;
 
 public class UserListFragment extends Fragment {
     private static final String TAG = "Debug" ;
-    @BindView(com.jvera.chat_app.R.id.usersList) ListView usersList;
-    @BindView(com.jvera.chat_app.R.id.noUsersText) TextView noUsersText;
+    @BindView(R.id.usersList) ListView usersList;
+    @BindView(R.id.noUsersText) TextView noUsersText;
 
     ArrayList<String> discussionsList = new ArrayList<>();
     ProgressDialog progDial;
@@ -47,9 +48,9 @@ public class UserListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(com.jvera.chat_app.R.layout.fragment_userlist, container, false);
+        View view = inflater.inflate(R.layout.fragment_userlist, container, false);
         Log.i(TAG, "onCreate UserListFragment");
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         StringRequest request = dbGetDiscussions();
         RequestQueue rQueue = Volley.newRequestQueue(getContext());

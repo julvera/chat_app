@@ -2,12 +2,16 @@ package com.jvera.chat_app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jvera.chat_app.fragment.ProfilFragment;
+import com.jvera.chat_app.fragment.UserListFragment;
 
 
 @SuppressWarnings("WeakerAccess")
@@ -91,5 +95,19 @@ public class Helper {
                 scrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
         });
+    }
+
+    /**
+     * return new user list fragment
+     */
+    public static Fragment createUserListFragment() {
+        return new UserListFragment();
+    }
+
+    /**
+     * return new user list fragment
+     */
+    public static Fragment createProfileFragment() {
+        return new ProfilFragment();
     }
 }

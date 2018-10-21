@@ -15,17 +15,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 public class ProfilFragment extends Fragment {
 
-    @BindView(com.jvera.chat_app.R.id.pseudo_profil)
-    TextView pseudoProfil;
+    @BindView(R.id.pseudo_profile) TextView pseudoProfile;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profil, container, false);
         ButterKnife.bind(this,view);
-        pseudoProfil.setText(UserDetails.username);
+        pseudoProfile.setText(UserDetails.username);
         return view;
     }
 
