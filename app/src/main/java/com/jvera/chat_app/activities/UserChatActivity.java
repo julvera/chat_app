@@ -1,4 +1,4 @@
-package com.jvera.chat_app;
+package com.jvera.chat_app.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -22,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.firebase.client.Firebase;
+import com.jvera.chat_app.Constants;
+import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.R;
 import com.jvera.chat_app.database_access.Database;
 import com.jvera.chat_app.database_access.DbHelper;
 

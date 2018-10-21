@@ -12,9 +12,9 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.jvera.chat_app.Constants;
-import com.jvera.chat_app.GuestDetails;
+import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.Helper;
-import com.jvera.chat_app.UserDetails;
+import com.jvera.chat_app.models.UserDetails;
 
 import java.util.HashMap;
 import java.util.Map;

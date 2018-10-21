@@ -2,6 +2,7 @@ package com.jvera.chat_app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -9,14 +10,18 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jvera.chat_app.fragment.ProfilFragment;
+import com.jvera.chat_app.fragment.UserListFragment;
+import com.jvera.chat_app.models.UserDetails;
+
 
 public class Helper {
 
     /** Api url generators*/
-    static String api_url_user_messages_friend () {
+    public static String api_url_user_messages_friend () {
         return urlGeneratorMessagesSenderReceiver(UserDetails.username, UserDetails.chat_with);
     }
-    static String api_url_friend_messages_user () {
+    public static String api_url_friend_messages_user () {
         return urlGeneratorMessagesSenderReceiver(UserDetails.chat_with, UserDetails.username);
     }
     private static String urlGeneratorMessagesSenderReceiver(String sender, String receiver) {
@@ -26,7 +31,7 @@ public class Helper {
     /**
     * Start activities without calling `new Intent` everywhere
     */
-    static void activityStarter(Context context, Class newActivityClass) {
+    public static void activityStarter(Context context, Class newActivityClass) {
         context.startActivity(new Intent(context, newActivityClass));
     }
 
@@ -36,7 +41,7 @@ public class Helper {
     }
 
     /** Check username constraints*/
-    static String checkUsernameValidity(final String username) {
+    public static String checkUsernameValidity(final String username) {
         String errorMessage = "";
         if (username.equals("")) {
             errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;
@@ -49,7 +54,7 @@ public class Helper {
     }
 
     /** Check password constraints*/
-    static String checkPasswordValidity(final String password) {
+    public static String checkPasswordValidity(final String password) {
         String errorMessage = "";
         if (password.equals("")) {
             errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;
@@ -90,5 +95,19 @@ public class Helper {
                 scrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
         });
+    }
+
+    /**
+     * return new user list fragment
+     */
+    public static Fragment createUserListFragment() {
+        return new UserListFragment();
+    }
+
+    /**
+     * return new user list fragment
+     */
+    public static Fragment createProfileFragment() {
+        return new ProfilFragment();
     }
 }

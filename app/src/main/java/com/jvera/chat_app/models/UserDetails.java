@@ -1,7 +1,7 @@
-package com.jvera.chat_app;
+package com.jvera.chat_app.models;
 
 public class UserDetails {
     public static String username = "";
     public static String password = "";
-    static String chat_with = "";
+    public static String chat_with = "";
 }

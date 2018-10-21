@@ -1,10 +1,12 @@
-package com.jvera.chat_app;
+package com.jvera.chat_app.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -16,6 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jvera.chat_app.Constants;
+import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.R;
+import com.jvera.chat_app.activities.UserChatActivity;
+import com.jvera.chat_app.models.UserDetails;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class UserHomeActivity extends AppCompatActivity {
+public class UserListFragment extends Fragment {
     private static final String TAG = "Debug" ;
     @BindView(R.id.usersList) ListView usersList;
     @BindView(R.id.noUsersText) TextView noUsersText;
@@ -36,28 +43,31 @@ public class UserHomeActivity extends AppCompatActivity {
     ProgressDialog progDial;
     private int totalUsers = 0;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_home);
-        Log.i(TAG, "onCreate UserHomeActivity");
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_userlist, container, false);
+        Log.i(TAG, "onCreate UserListFragment");
+        ButterKnife.bind(this, view);
 
         StringRequest request = dbGetDiscussions();
-        RequestQueue rQueue = Volley.newRequestQueue(this);
+        RequestQueue rQueue = Volley.newRequestQueue(getContext());
         rQueue.add(request);
 
         usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserDetails.chat_with = discussionsList.get(position);
-                Helper.activityStarter(UserHomeActivity.this, UserChatActivity.class);
+                Helper.activityStarter(getContext(), UserChatActivity.class);
             }
         });
+        return view;
     }
 
     private StringRequest dbGetDiscussions(){
-        progDial = new ProgressDialog(this);
+        progDial = new ProgressDialog(getActivity());
         progDial.setMessage("Loading...");
         progDial.show();
         Response.Listener<String> response_listener = new Response.Listener<String>(){
@@ -104,39 +114,10 @@ public class UserHomeActivity extends AppCompatActivity {
             noUsersText.setVisibility(View.GONE);
             usersList.setVisibility(View.VISIBLE);
             usersList.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_list_item_1, discussionsList
+                    getActivity(), android.R.layout.simple_list_item_1, discussionsList
             ));
         }
         progDial.dismiss();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG,"onStart UserHomeActivity");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG,"onResume UserHomeActivity");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG,"onPause UserHomeActivity");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG,"onStop UserHomeActivity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG,"onDestroy UserHomeActivity");
-    }
 }
