@@ -1,4 +1,4 @@
-package com.jvera.chat_app.activity;
+package com.jvera.chat_app.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
