@@ -10,14 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-@SuppressWarnings("WeakerAccess")
 public class Helper {
 
     /** Api url generators*/
-    protected static String api_url_user_messages_friend () {
+    static String api_url_user_messages_friend () {
         return urlGeneratorMessagesSenderReceiver(UserDetails.username, UserDetails.chat_with);
     }
-    protected static String api_url_friend_messages_user () {
+    static String api_url_friend_messages_user () {
         return urlGeneratorMessagesSenderReceiver(UserDetails.chat_with, UserDetails.username);
     }
     private static String urlGeneratorMessagesSenderReceiver(String sender, String receiver) {
@@ -27,7 +26,7 @@ public class Helper {
     /**
     * Start activities without calling `new Intent` everywhere
     */
-    public static void activityStarter(Context context, Class newActivityClass) {
+    static void activityStarter(Context context, Class newActivityClass) {
         context.startActivity(new Intent(context, newActivityClass));
     }
 
@@ -37,7 +36,7 @@ public class Helper {
     }
 
     /** Check username constraints*/
-    protected static String checkUsernameValidity(final String username) {
+    static String checkUsernameValidity(final String username) {
         String errorMessage = "";
         if (username.equals("")) {
             errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;
@@ -50,7 +49,7 @@ public class Helper {
     }
 
     /** Check password constraints*/
-    protected static String checkPasswordValidity(final String password) {
+    static String checkPasswordValidity(final String password) {
         String errorMessage = "";
         if (password.equals("")) {
             errorMessage = Constants.TXT_ERROR_FIELD_REQUIRED;
@@ -64,7 +63,7 @@ public class Helper {
     * Generates the message box for screen prompting of messages
     */
     public static void addMessageBox(Context context, LinearLayout layout,
-                                        final ScrollView scrollView, String message, int type){
+                                     final ScrollView scrollView, String message, int type){
         TextView textView = new TextView(context);
         textView.setText(message);
 

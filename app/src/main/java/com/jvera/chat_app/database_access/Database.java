@@ -1,6 +1,7 @@
 package com.jvera.chat_app.database_access;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -101,13 +102,10 @@ public class Database {
     }
 
     public static void sendMessages(final EditText messageArea, final Firebase ref1,
-                                    final Firebase ref2) {
+                                    final Firebase ref2, String encodedImage) {
         String messageText = messageArea.getText().toString();
-        boolean isGuestChat = false;
-        if (ref2 == null) {
-            isGuestChat = true;
-        }
-
+        boolean isGuestChat = ref2 == null; //ref2 null => Guest
+        Log.i(Database.class.getSimpleName(), "fait chier : !!!!!!!!!!!!: " + encodedImage);
         if(!messageText.equals("")){
             Map<String, String> map = new HashMap<>();
             map.put("message", messageText);
