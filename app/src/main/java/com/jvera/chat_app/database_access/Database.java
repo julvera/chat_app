@@ -11,8 +11,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.jvera.chat_app.Constants;
-import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.models.UserDetails;
 
 import java.util.HashMap;
@@ -53,6 +53,18 @@ public class Database {
             base_url + ".json",
             responseListener
         );
+    }
+
+    /**
+     * Update a User Profil => Password
+     */
+    public static void updateProfil(final Context context, final CallbackWaiterInterface callback,
+                                      final String base_url, final String password){
+        Firebase.setAndroidContext(context);
+        Firebase reference = new Firebase(base_url);
+        Map<String, Object> updates = new HashMap<String,Object>();
+        updates.put("password", password);
+        reference.child(UserDetails.username).child("profile").updateChildren(updates);
     }
 
     /**

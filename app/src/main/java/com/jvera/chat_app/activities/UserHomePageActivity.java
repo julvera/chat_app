@@ -2,9 +2,6 @@ package com.jvera.chat_app.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,7 +26,7 @@ public class UserHomePageActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_side_menu);
-        createFragment(Helper.createUserListFragment(), base_fragment, "add");
+        Helper.createFragment(Helper.createUserListFragment(), base_fragment, "add", this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -43,6 +40,10 @@ public class UserHomePageActivity extends AppCompatActivity
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle("Home");
     }
 
     @Override
@@ -66,11 +67,11 @@ public class UserHomePageActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.nav_home:
-                createFragment(Helper.createUserListFragment(), base_fragment, "replace");
+                Helper.createFragment(Helper.createUserListFragment(), base_fragment, "replace",this);
                 Helper.toastAnnounce(this, "Home selected");
                 break;
             case R.id.nav_profil:
-                createFragment(Helper.createProfileFragment(), base_fragment, "replace");
+                Helper.createFragment(Helper.createProfileFragment(), base_fragment, "replace",this);
                 Helper.toastAnnounce(this, "Profile selected");
                 break;
             case R.id.nav_settings:
@@ -83,18 +84,6 @@ public class UserHomePageActivity extends AppCompatActivity
         return true;
     }
 
-    public void createFragment(Fragment myFragment,int baseFragment, String addOrReplace){
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        switch(addOrReplace) {
-            case "replace":
-                fragmentTransaction.replace(baseFragment, myFragment);
-                break;
-            default: //"add"
-                fragmentTransaction.add(baseFragment, myFragment);
-                break;
-        }
-        fragmentTransaction.commit();
-    }
+
 }

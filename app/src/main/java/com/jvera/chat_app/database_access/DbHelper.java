@@ -2,6 +2,7 @@ package com.jvera.chat_app.database_access;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -11,8 +12,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.firebase.client.Firebase;
 import com.jvera.chat_app.Constants;
-import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.models.UserDetails;
 
 import org.json.JSONException;
@@ -87,8 +88,13 @@ public class DbHelper {
                     try {
                         JSONObject obj = new JSONObject(s);
                         if (!obj.has(user)) {
+                            Log.i("USER00", "User pas found du tout");
+                            Log.i("USER00", "User:"+user);
+
                             grantAccess = actionOnUserNotFound(context, reference, user, pass, isAdding);
                         } else {
+                            Log.i("USER00", "User found"+"User:"+user);
+
                             grantAccess = actionOnExistingUser(context, obj, user, pass, isAdding);
                         }
                     } catch (JSONException e) {e.printStackTrace();}

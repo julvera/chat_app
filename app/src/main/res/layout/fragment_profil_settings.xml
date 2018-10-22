@@ -13,7 +13,7 @@
         android:scaleType="centerCrop" />
 
     <ImageView
-        android:id="@+id/profil_pic"
+        android:id="@+id/profil_update_pic"
         android:layout_width="175dp"
         android:layout_height="127dp"
         android:layout_alignParentTop="true"
@@ -28,8 +28,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/password_profile"
+    <EditText
+        android:id="@+id/password_update_profil"
         android:layout_width="265dp"
         android:layout_height="60dp"
         android:layout_margin="10dp"
@@ -40,22 +40,19 @@
         android:background="@drawable/shapepseudoupdate"
         android:drawableLeft="@drawable/ic_lock_black_24dp"
         android:drawablePadding="10dp"
+        android:hint="@string/change_password"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
-        android:text="MyPassword"
-        android:textStyle="bold"
-        android:textSize="23dp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/password_change_btn"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/pseudo_update_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profil_pic" />
+        app:layout_constraintTop_toBottomOf="@+id/profil_update_pic" />
 
 
     <Button
-        android:id="@+id/password_change_btn"
+        android:id="@+id/pseudo_update_btn"
         android:layout_width="245dp"
         android:layout_height="63dp"
         android:layout_alignTop="@+id/header_cover_image"

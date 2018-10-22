@@ -32,7 +32,12 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="change_pseudo">Change Your Pseudo</string>
+    <string name="change_password">Change Your Password</string>
+    <string name="update_password">Update Your Password</string>
+    <string name="profil_edit_hint">Enter Here New Password</string>
+
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

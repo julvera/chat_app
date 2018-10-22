@@ -3,6 +3,9 @@ package com.jvera.chat_app;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jvera.chat_app.fragment.ProfilFragment;
+import com.jvera.chat_app.fragment.ProfilSettingsFragment;
 import com.jvera.chat_app.fragment.UserListFragment;
 import com.jvera.chat_app.models.UserDetails;
 
@@ -98,6 +102,22 @@ public class Helper {
         });
     }
 
+    public static void createFragment(Fragment myFragment,int baseFragment, String addOrReplace, Context context){
+
+        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch(addOrReplace) {
+            case "replace":
+                fragmentTransaction.replace(baseFragment, myFragment);
+
+                break;
+            default: //"add"
+                fragmentTransaction.add(baseFragment, myFragment);
+                break;
+        }
+        fragmentTransaction.commit();
+    }
+
     /**
      * return new user list fragment
      */
@@ -110,5 +130,12 @@ public class Helper {
      */
     public static Fragment createProfileFragment() {
         return new ProfilFragment();
+    }
+
+    /**
+     * return new Profil Settings fragment
+     */
+    public static Fragment createProfileSettingsFragment() {
+        return new ProfilSettingsFragment();
     }
 }

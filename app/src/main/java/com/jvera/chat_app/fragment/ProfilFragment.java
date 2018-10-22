@@ -18,22 +18,26 @@ import butterknife.OnClick;
 
 public class ProfilFragment extends Fragment {
 
-    @BindView(R.id.pseudo_profile) TextView pseudoProfile;
+    @BindView(R.id.password_profile) TextView passwordProfil;
+
+    public int base_fragment = R.id.base_fragment;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profil, container, false);
         ButterKnife.bind(this,view);
-        pseudoProfile.setText(UserDetails.username);
+        passwordProfil.setText(UserDetails.password);
         return view;
     }
 
-    @OnClick({R.id.pseudo_change_btn})
+    @OnClick({R.id.password_change_btn})
     public void setOnClickLoginEvents(View v) {
         switch(v.getId()) {
-            case R.id.pseudo_change_btn:
+            case R.id.password_change_btn:
                 // When Pseudo change btn is clicked , pseudo changed proceed
+                Helper.createFragment(Helper.createProfileSettingsFragment(), base_fragment, "replace",getContext());
+
                 Helper.toastAnnounce(getContext(),"Change Pseudo button selected");
 
                 break;
@@ -43,4 +47,6 @@ public class ProfilFragment extends Fragment {
                 break;
         }
     }
-}
+
+
+    }
