@@ -1,20 +1,19 @@
 package com.jvera.chat_app;
 
 
-@SuppressWarnings("WeakerAccess")
 public class Constants {
     /** */
-    static final int PERMISSIONS_REQUEST_LOCATION = 666;
+    public static final int PERMISSIONS_REQUEST_LOCATION = 666;
     /**
     * Text strings for toasts pop-ups mainly
     */
     public static String TXT_REGISTRATION_SUCCESSFUL = "Registration successful";
     public static String TXT_REGISTRATION_SUCCESSFUL_WELCOME = "Registration successful. Welcome ";
     public static String TXT_ERROR_USER_EXISTS = "username already exists";
-    protected static String TXT_ERROR_FIELD_REQUIRED = "This field is required";
-    protected static String TXT_ERROR_ALPHA_OR_NUMBER_ONLY = "only alphabet or number allowed";
-    protected static String TXT_ERROR_SHORT_PASSWORD = "This password is too short";
-    protected static String TXT_ERROR_SHORT_USERNAME = "This username is too short";
+    static String TXT_ERROR_FIELD_REQUIRED = "This field is required";
+    static String TXT_ERROR_ALPHA_OR_NUMBER_ONLY = "only alphabet or number allowed";
+    static String TXT_ERROR_SHORT_PASSWORD = "This password is too short";
+    static String TXT_ERROR_SHORT_USERNAME = "This username is too short";
     public static String TXT_ERROR_USER_NOT_FOUND = "user not found";
     public static String TXT_ERROR_INCORRECT_PASSWORD = "This password is incorrect";
 

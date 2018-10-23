@@ -72,7 +72,7 @@ public class UserRegisterActivity extends AppCompatActivity implements CredsVali
     }
 
     /** To do list of things if credentials are valid*/
-    public void actionOnValidCredentials() {
+    @Override public void actionOnValidCredentials() {
         Helper.toastAnnounce(this, Constants.TXT_REGISTRATION_SUCCESSFUL);
         startLoginActivity();
     }

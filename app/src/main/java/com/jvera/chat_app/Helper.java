@@ -10,8 +10,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jvera.chat_app.fragment.ProfilFragment;
-import com.jvera.chat_app.fragment.UserListFragment;
+import com.jvera.chat_app.fragments.ProfilFragment;
+import com.jvera.chat_app.fragments.UserListFragment;
 import com.jvera.chat_app.models.UserDetails;
 
 

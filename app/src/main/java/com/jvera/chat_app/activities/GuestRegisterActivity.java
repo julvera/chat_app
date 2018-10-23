@@ -58,7 +58,7 @@ public class GuestRegisterActivity extends AppCompatActivity implements CredsVal
     }
 
     /** To do list if credentials are validated*/
-    public void actionOnValidCredentials() {
+    @Override public void actionOnValidCredentials() {
         Helper.toastAnnounce(this, Constants.TXT_REGISTRATION_SUCCESSFUL_WELCOME + guestUsername + "!");
         Helper.activityStarter(this, GuestChatActivity.class);
     }

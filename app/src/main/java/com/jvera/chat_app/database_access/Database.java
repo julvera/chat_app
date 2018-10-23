@@ -1,7 +1,6 @@
 package com.jvera.chat_app.database_access;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -12,8 +11,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.jvera.chat_app.Constants;
-import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.models.UserDetails;
 
 import java.util.HashMap;
@@ -27,7 +26,6 @@ public class Database {
      */
     public static void verifyUserCredentials(final Context context, final CallbackWaiterInterface callback,
                                              final String user, final String pass) {
-        Firebase.setAndroidContext(context);
         Response.Listener<String> responseListener = DbHelper.generateResponseListener(
             context, callback, user, pass, Constants.API_BASE_URL, false //not adding, just checking
         );
@@ -44,7 +42,6 @@ public class Database {
      */
     public static void addCredentials(final Context context, final CallbackWaiterInterface callback,
                                       final String base_url, final String user, final String pass){
-        Firebase.setAndroidContext(context);
         Response.Listener<String> responseListener = DbHelper.generateResponseListener(
             context, callback, user, pass, base_url, true //adding credentials. User or guest
         );
@@ -66,8 +63,7 @@ public class Database {
     public static Firebase referenceMessages(final Context context, final String url,
                                              final LinearLayout layout, final ScrollView scrollView,
                                              final boolean isPrivateConversation) {
-        Firebase.setAndroidContext(context);
-        Firebase refGuestsMessages = new Firebase(url);
+        Firebase refGuestsMessages = DbHelper.generateFirebaseReference(url);
 
         refGuestsMessages.addChildEventListener(new ChildEventListener() {
             @Override
@@ -102,10 +98,10 @@ public class Database {
     }
 
     public static void sendMessages(final EditText messageArea, final Firebase ref1,
-                                    final Firebase ref2, String encodedImage) {
+                                    final Firebase ref2) {
         String messageText = messageArea.getText().toString();
         boolean isGuestChat = ref2 == null; //ref2 null => Guest
-        Log.i(Database.class.getSimpleName(), "fait chier : !!!!!!!!!!!!: " + encodedImage);
+
         if(!messageText.equals("")){
             Map<String, String> map = new HashMap<>();
             map.put("message", messageText);
