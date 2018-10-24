@@ -40,11 +40,11 @@ public class UserChatActivity extends AppCompatActivity {
                 Helper.api_url_friend_messages_user()
         );
         refUserFriend = Database.referenceMessages(
-                this,
-                Helper.api_url_user_messages_friend(),
-                layout,
-                scrollView,
-                true //user chat is private
+            this.getApplicationContext(),
+            Helper.api_url_user_messages_friend(),
+            layout,
+            scrollView,
+            true //user chat is private
         );
     }
 

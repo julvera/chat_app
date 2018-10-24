@@ -34,7 +34,11 @@ public class GuestChatActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         refGuestsMessages = Database.referenceMessages(
-            this, Constants.API_URL_GUESTS_MESSAGES, layout, scrollView, false //guest chat is not private
+            this.getApplicationContext(),
+            Constants.API_URL_GUESTS_MESSAGES,
+            layout,
+            scrollView,
+            false //guest chat is not private
         );
     }
 

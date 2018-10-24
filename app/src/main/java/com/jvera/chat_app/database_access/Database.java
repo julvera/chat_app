@@ -14,6 +14,7 @@ import com.firebase.client.FirebaseError;
 import com.jvera.chat_app.Constants;
 import com.jvera.chat_app.Helper;
 import com.jvera.chat_app.ImageHelper;
+import com.jvera.chat_app.MessagesHelper;
 import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.models.UserDetails;
 
@@ -66,6 +67,7 @@ public class Database {
                                              final LinearLayout layout, final ScrollView scrollView,
                                              final boolean isPrivateConversation) {
         Firebase refGuestsMessages = DbHelper.generateFirebaseReference(url);
+        final MessagesHelper messagesHelper = new MessagesHelper();
 
         refGuestsMessages.addChildEventListener(new ChildEventListener() {
             @Override
@@ -90,7 +92,7 @@ public class Database {
                     }
                 }
 
-                Helper.addMessageBox(context, layout, scrollView, message, messageFrom, messageType);
+                messagesHelper.addMessageBox(context, layout, scrollView, message, messageFrom, messageType);
             }
 
             @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
