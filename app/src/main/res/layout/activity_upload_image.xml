@@ -29,7 +29,7 @@
         app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
 
     <Button
-        android:id="@+id/buttonSend"
+        android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -41,7 +41,7 @@
         android:id="@+id/imageView"
         android:layout_width="321dp"
         android:layout_height="314dp"
-        android:layout_alignBottom="@+id/buttonSend"
+        android:layout_alignBottom="@+id/sendButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="86dp"
         android:contentDescription="@string/Image_description"

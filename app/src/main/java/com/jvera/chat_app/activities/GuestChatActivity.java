@@ -41,6 +41,6 @@ public class GuestChatActivity extends AppCompatActivity {
     /** Send messages! null given as ref2 because guest chat does only prompt messages in one place*/
     @OnClick(R.id.sendButton)
     public void sendMessage(View v) {
-        Database.sendMessages(messageArea, refGuestsMessages, null); //no second reference
+        Database.sendMessage(messageArea, refGuestsMessages, null); //no second reference
     }
 }

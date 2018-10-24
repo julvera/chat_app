@@ -2,9 +2,13 @@ package com.jvera.chat_app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -68,26 +72,45 @@ public class Helper {
     * Generates the message box for screen prompting of messages
     */
     public static void addMessageBox(Context context, LinearLayout layout,
-                                     final ScrollView scrollView, String message, int type){
-        TextView textView = new TextView(context);
-        textView.setText(message);
+                                     final ScrollView scrollView, String message, int messageFrom,
+                                     String messageType){
+        TextView view = new TextView(context);
+        ImageView imageView = new ImageView(context);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
         layoutParams.weight = 1.0f;
 
-        if(type == Constants.MESSAGE_TYPE_SELF) {
-            layoutParams.gravity = Gravity.END;
-            textView.setTextColor(context.getResources().getColor(R.color.colorBackgroundChat));
-            textView.setBackgroundResource(R.drawable.bubble_right);
-        }
-        else{
-            layoutParams.gravity = Gravity.START;
-            textView.setTextColor(context.getResources().getColor(R.color.black));
-            textView.setBackgroundResource(R.drawable.bubble_left);
-        }
+        boolean isImage = messageType.equals(Constants.MESSAGE_TYPE_IMAGE);
 
-        textView.setLayoutParams(layoutParams);
-        layout.addView(textView);
+        // Assume default
+        layoutParams.gravity = Gravity.END;
+//        imageView.setBackgroundResource(R.drawable.bubble_right);
+        view.setTextColor(context.getResources().getColor(R.color.colorBackgroundChat));
+        view.setBackgroundResource(R.drawable.bubble_right);
+        if (isImage) {
+            if (messageFrom == Constants.MESSAGE_FROM_OTHER) {
+                layoutParams.gravity = Gravity.START;
+//                imageView.setBackgroundResource(R.drawable.bubble_left);
+            }
+            layoutParams.width = 220;
+            layoutParams.height = 220;
+            Bitmap decodedImage = DecodeImage(message);
+            imageView.setImageBitmap(decodedImage);
+            imageView.setLayoutParams(layoutParams);
+            layout.addView(imageView);
+        } else {
+            if (messageFrom == Constants.MESSAGE_FROM_OTHER) {
+                layoutParams.gravity = Gravity.START;
+                view.setTextColor(context.getResources().getColor(R.color.black));
+                view.setBackgroundResource(R.drawable.bubble_left);
+            }
+            view.setText(message);
+            view.setLayoutParams(layoutParams);
+            layout.addView(view);
+        }
 
         scrollView.post(new Runnable() {
             @Override
@@ -97,6 +120,10 @@ public class Helper {
         });
     }
 
+    private static Bitmap DecodeImage(String encodedImage) {
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
     /**
      * return new user list fragment
      */

@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,7 +21,10 @@ import android.widget.ImageView;
 
 import com.firebase.client.Firebase;
 import com.jvera.chat_app.Constants;
+import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.ImageHelper;
 import com.jvera.chat_app.R;
+import com.jvera.chat_app.database_access.Database;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 public class UploadImageActivity  extends AppCompatActivity {
     @BindView(R.id.imageView) ImageView imageView;
     private static final String TAG = "Debug" ;
@@ -41,7 +44,7 @@ public class UploadImageActivity  extends AppCompatActivity {
     private static final int TAKE_PICTURE_REQUEST = 2;
     private boolean imageSelected = false;
     String currentPhotoPath;
-    String imgDecodableString;
+    Uri currentPhotoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +58,22 @@ public class UploadImageActivity  extends AppCompatActivity {
     /** Send messages!*/
     @OnClick(R.id.sendButton)
     public void onClickSendActions(View v) {
-//        Database.sendMessages(messageArea, null, null);
+        if (imageSelected) {
+            boolean isImageSent = Database.sendImage(this, currentPhotoUri);
+            if (isImageSent) {
+                Helper.toastAnnounce(this, "Image sent!");
+            } else { Helper.toastAnnounce(this, "Something went wrong :/"); }
+            finish(); //End of activity, go back to messaging
+        } else {
+            Helper.toastAnnounce(this, "Nothing selected");
+        }
     }
 
     /** Use camera*/
     @OnClick(R.id.cameraButton)
     public void onClickCameraActions(View v) {
         if(isAccessPermissionGranted(android.Manifest.permission.CAMERA)) {
-            takePicturePreparator();
+            takePicture();
         }
     }
 
@@ -75,29 +86,34 @@ public class UploadImageActivity  extends AppCompatActivity {
 
     /** click on Gallery logic*/
     private void chooseImage() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Intent intent = ImageHelper.generateGalleryIntent();
+        Log.i("SOMETHING", "start PICK IMAGE Activity");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private void takePicturePreparator() {
+    private void takePicture() {
         Log.i("SOMETHING", "Take picture intent");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
+            File photoFile = null;
             try {
                 Log.i("SOMETHING", "Take picture intent VALIDATED");
-                File photoFile = createImage();
+                photoFile = createImage();
+            } catch (IOException ex) {ex.printStackTrace(); /* cry */}
+
+            if (photoFile != null) {
+                currentPhotoPath = photoFile.getAbsolutePath();
                 Uri photoURI = FileProvider.getUriForFile(
                     this,
                     "com.example.android.fileprovider",
                     photoFile
                 );
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                addToGallery();
+
                 startActivityForResult(takePictureIntent, TAKE_PICTURE_REQUEST);
-            } catch (IOException ex) {/* cry */}
+            }
         }
     }
 
@@ -108,46 +124,29 @@ public class UploadImageActivity  extends AppCompatActivity {
 
         if(requestCode == PICK_IMAGE_REQUEST)
         {
-            Uri filePath = data.getData();
+            Uri fileUri = data.getData();
             try {
-                String[] filePathColumn = { MediaStore.Images.ImageColumns.DATA };
-                Cursor cursor = getContentResolver().query(filePath, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imgDecodableString = cursor.getString(columnIndex);
-                cursor.close();
-                Log.i("SOMETHING", "Image decodable string: " + imgDecodableString);
-                Log.i("SOMETHING", "file path: " + filePath);
-
-
+                imageView.setImageURI(fileUri);
+//                currentPhotoPath = getRealPathFromURI(filePath);
+                currentPhotoUri = fileUri;
+                Log.i("SOMETHING", "file path: " + currentPhotoUri);
                 imageSelected = true;
-//////////////                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-//////////////                currentPhotoPath = getRealPathFromURI(filePath);
-//////////////                //TODO: actually something
-////////////////                imageView.setImageURI(uri);
-////////////////                imageView.setImageBitmap(bitmap);
-//////////////                imageSelected = true;
-////////////////                OutputStream imageFile = new FileOutputStream(filePath.getPath());
-////////////////                boolean worked = bitmap.compress(Bitmap.CompressFormat.JPEG, 80, imageFile);
-            } catch (Exception e) {e.printStackTrace();}
+            } catch (Exception e) {e.printStackTrace(); /* cry */}
         } else if (requestCode == TAKE_PICTURE_REQUEST) {
+            addToGallery();
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            imageView.setImageBitmap(bitmap);
             imageSelected = true;
         }
     }
 
 //    private String getRealPathFromURI(Uri uri) {
-//        String realPath = "";
-//        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//        Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
-//
-//        if(cursor.moveToFirst()){
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            realPath = cursor.getString(columnIndex);
+//        Cursor cursor = getContentResolver().query(uri.getPath(), null, null, null, null);
+//        if(cursor.moveToFirst()) {
+//            int idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+//            return cursor.getString(idx);
 //        }
-//        cursor.close();
-//
-//        return realPath;
+//        return "";
 //    }
 
     private File createImage() throws IOException {
@@ -158,9 +157,9 @@ public class UploadImageActivity  extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         Log.i("SOMETHING", storageDir.toString());
         File image = File.createTempFile(
-            imageFilename,
-            ".jpg",
-            storageDir
+                imageFilename,
+                ".jpg",
+                storageDir
         );
 
         currentPhotoPath = image.getAbsolutePath();
@@ -168,6 +167,7 @@ public class UploadImageActivity  extends AppCompatActivity {
         return image;
     }
 
+    /** Add picture took to the phones pictures set (gallery)*/
     private void addToGallery() {
         Log.i("SOMETHING", "add to gallery photo path: " + currentPhotoPath);
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -192,9 +192,9 @@ public class UploadImageActivity  extends AppCompatActivity {
                         @Override public void onClick(DialogInterface dialogInterface, int i) {
                             //Prompt the user once explanation has been shown
                             ActivityCompat.requestPermissions(
-                                    UploadImageActivity.this,
-                                    new String[]{requiredPermission},
-                                    1
+                                UploadImageActivity.this,
+                                new String[]{requiredPermission},
+                                1
                             );
                         }
                     })

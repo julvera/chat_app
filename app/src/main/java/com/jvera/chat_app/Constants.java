@@ -29,8 +29,17 @@ public class Constants {
     /**
     * Message type Constants
     */
-    public static int MESSAGE_TYPE_SELF = 1;
-    public static int MESSAGE_TYPE_OTHER = 2;
+    public static int MESSAGE_FROM_SELF = 1;
+    public static int MESSAGE_FROM_OTHER = 2;
+    public static String MESSAGE_TYPE_TEXT = "text";
+    public static String MESSAGE_TYPE_IMAGE = "image";
+
+    /**
+     * Messages field names
+     */
+    public static String MESSAGES_CATEGORY_MESSAGE = "message";
+    public static String MESSAGES_CATEGORY_USER = "user";
+    public static String MESSAGES_CATEGORY_TYPE = "type";
 
     /**
     * Semi-Constant methods for String manipulations

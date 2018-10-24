@@ -51,7 +51,7 @@ public class UserChatActivity extends AppCompatActivity {
     /** Send messages!*/
     @OnClick(R.id.sendButton)
     public void onClickSendActions(View v) {
-        Database.sendMessages(messageArea, refUserFriend, refFriendUser);
+        Database.sendMessage(messageArea, refUserFriend, refFriendUser);
     }
 
     @OnClick(R.id.uploadButton)
