@@ -29,7 +29,6 @@ public class GuestRegisterActivity extends AppCompatActivity implements CredsVal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_register);
-        Log.i(TAG, "onCreate GuestRegisterActivity");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
     }

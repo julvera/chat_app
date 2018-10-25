@@ -39,7 +39,6 @@ public class UploadImageActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_image);
-        Log.i(TAG, "onCreate UploadImageActivity");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
     }

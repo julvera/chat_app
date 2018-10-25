@@ -51,10 +51,8 @@ public class ProfilSettingsFragment extends Fragment implements CredsValidationI
                             Constants.API_URL_USERS_USERNAMES,
                             pass
                     );
+                    Helper.createFragment(Helper.createUserListFragment(), base_fragment, "replace",getContext());
                 }
-
-                Helper.createFragment(Helper.createUserListFragment(), base_fragment, "replace",getContext());
-
                 break;
 
             default:

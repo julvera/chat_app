@@ -50,7 +50,6 @@ public class UserListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_userlist, container, false);
-        Log.i(TAG, "onCreate UserListFragment");
         ButterKnife.bind(this, view);
 
         StringRequest request = dbGetDiscussions();

@@ -19,7 +19,7 @@ import butterknife.OnClick;
 
 public class ProfilFragment extends Fragment {
 
-    @BindView(R.id.password_profile) TextView passwordProfil;
+    @BindView(R.id.password_profile) TextView usernameProfil;
 
     public int base_fragment = R.id.base_fragment;
 
@@ -28,7 +28,7 @@ public class ProfilFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profil, container, false);
         ButterKnife.bind(this,view);
-        passwordProfil.setText(UserDetails.password);
+        usernameProfil.setText(UserDetails.username);
         return view;
     }
 
@@ -38,9 +38,6 @@ public class ProfilFragment extends Fragment {
             case R.id.password_change_btn:
                 // When Pseudo change btn is clicked , pseudo changed proceed
                 Helper.createFragment(Helper.createProfileSettingsFragment(), base_fragment, "replace",getContext());
-
-                Helper.toastAnnounce(getContext(),"Change Pseudo button selected");
-
                 break;
 
             default:
