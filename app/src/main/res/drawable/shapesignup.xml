@@ -8,7 +8,7 @@
     </solid>
 
     <corners
-        android:radius="25dp">
+        android:radius="20dp">
     </corners>
 
     <stroke

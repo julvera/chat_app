@@ -51,6 +51,7 @@ public class ProfilSettingsFragment extends Fragment implements CredsValidationI
                             Constants.API_URL_USERS_USERNAMES,
                             pass
                     );
+                    Helper.toastAnnounce(getContext(),"Password Changed");
                     Helper.createFragment(Helper.createUserListFragment(), base_fragment, "replace",getContext());
                 }
                 break;
