@@ -34,4 +34,4 @@
 - Improve UI and UX
 - By default anyone logged in can chat with every registered user,
    implements contact and "friend requests", default should be no contact.
--
+- Add timestamp to messages
