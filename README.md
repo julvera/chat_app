@@ -26,5 +26,9 @@
 - Make title in messages be the username we are chatting with and not just "ChatApp"
 - Find things to do under the "Tools" functionality in side menu
 - Use Glide for image management / Stop formatting in Base64
-- Modify DB structure to store messages in a seperate instance and make users have references in there, so we can stop data duplication
-- 
+- Modify DB structure to store messages in a separate instance and make users have references in there, so we can stop data duplication
+- Create a "real profil" with multiply preferences and settings and not only the password change
+- Implements the settings page in the side menu ( create application settings )
+- Implements global notifications
+- Improve UI and UX 
+- By default every user can communicate to every user register, implements a "friend request" to be able to speak with someone.
