@@ -1,18 +1,19 @@
 package com.jvera.chat_app;
 
 
-@SuppressWarnings("WeakerAccess")
 public class Constants {
+    /** */
+    public static final int PERMISSIONS_REQUEST_LOCATION = 666;
     /**
     * Text strings for toasts pop-ups mainly
     */
     public static String TXT_REGISTRATION_SUCCESSFUL = "Registration successful";
     public static String TXT_REGISTRATION_SUCCESSFUL_WELCOME = "Registration successful. Welcome ";
     public static String TXT_ERROR_USER_EXISTS = "username already exists";
-    protected static String TXT_ERROR_FIELD_REQUIRED = "This field is required";
-    protected static String TXT_ERROR_ALPHA_OR_NUMBER_ONLY = "only alphabet or number allowed";
-    protected static String TXT_ERROR_SHORT_PASSWORD = "This password is too short";
-    protected static String TXT_ERROR_SHORT_USERNAME = "This username is too short";
+    static String TXT_ERROR_FIELD_REQUIRED = "This field is required";
+    static String TXT_ERROR_ALPHA_OR_NUMBER_ONLY = "only alphabet or number allowed";
+    static String TXT_ERROR_SHORT_PASSWORD = "This password is too short";
+    static String TXT_ERROR_SHORT_USERNAME = "This username is too short";
     public static String TXT_ERROR_USER_NOT_FOUND = "user not found";
     public static String TXT_ERROR_INCORRECT_PASSWORD = "This password is incorrect";
 
@@ -28,8 +29,17 @@ public class Constants {
     /**
     * Message type Constants
     */
-    public static int MESSAGE_TYPE_SELF = 1;
-    public static int MESSAGE_TYPE_OTHER = 2;
+    public static int MESSAGE_FROM_SELF = 1;
+    public static int MESSAGE_FROM_OTHER = 2;
+    public static String MESSAGE_TYPE_TEXT = "text";
+    public static String MESSAGE_TYPE_IMAGE = "image";
+
+    /**
+     * Messages field names
+     */
+    public static String MESSAGES_CATEGORY_MESSAGE = "message";
+    public static String MESSAGES_CATEGORY_USER = "user";
+    public static String MESSAGES_CATEGORY_TYPE = "type";
 
     /**
     * Semi-Constant methods for String manipulations

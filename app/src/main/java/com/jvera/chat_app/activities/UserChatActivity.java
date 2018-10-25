@@ -20,10 +20,10 @@ import butterknife.OnClick;
 
 
 public class UserChatActivity extends AppCompatActivity {
-    private static final String TAG = "Debug" ;
     @BindView(R.id.layout1) LinearLayout layout;
     @BindView(R.id.messageArea) EditText messageArea;
     @BindView(R.id.scrollView) ScrollView scrollView;
+    private static final String TAG = "Debug" ;
 
     Firebase refUserFriend, refFriendUser;
 
@@ -33,10 +33,14 @@ public class UserChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_chat);
         Log.i(TAG, "onCreate UserChatActivity");
         ButterKnife.bind(this);
+        Firebase.setAndroidContext(this);
 
-        refFriendUser = DbHelper.generateFirebaseReference(Helper.api_url_friend_messages_user());
+        //Need to create references here to have the messages history on page load
+        refFriendUser = DbHelper.generateFirebaseReference(
+                Helper.api_url_friend_messages_user()
+        );
         refUserFriend = Database.referenceMessages(
-            this,
+            this.getApplicationContext(),
             Helper.api_url_user_messages_friend(),
             layout,
             scrollView,
@@ -46,8 +50,12 @@ public class UserChatActivity extends AppCompatActivity {
 
     /** Send messages!*/
     @OnClick(R.id.sendButton)
-    public void sendMessage(View v) {
-        Database.sendMessages(messageArea, refUserFriend, refFriendUser);
+    public void onClickSendActions(View v) {
+        Database.sendMessage(messageArea, refUserFriend, refFriendUser);
+    }
 
+    @OnClick(R.id.uploadButton)
+    public void onClickUploadActions(View v) {
+        Helper.activityStarter(this, UploadImageActivity.class);
     }
 }

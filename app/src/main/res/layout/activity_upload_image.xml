@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.jvera.chat_app.activities.UploadImageActivity">
+
+    <ImageButton
+        android:id="@+id/galleryButton"
+        android:layout_width="68dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="110dp"
+        android:contentDescription="@string/gallery_button_description"
+        app:srcCompat="@drawable/ic_insert_photo_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/cameraButton"
+        android:layout_width="68dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/camera_button_description"
+        app:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:text="@string/send_button_text" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="321dp"
+        android:layout_height="314dp"
+        android:layout_alignBottom="@+id/sendButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="86dp"
+        android:contentDescription="@string/Image_description"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>

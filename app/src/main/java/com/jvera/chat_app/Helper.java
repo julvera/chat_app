@@ -6,20 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jvera.chat_app.fragment.ProfilFragment;
-import com.jvera.chat_app.fragment.ProfilSettingsFragment;
-import com.jvera.chat_app.fragment.UserListFragment;
+import com.jvera.chat_app.fragments.ProfilSettingsFragment;
+import com.jvera.chat_app.fragments.ProfilFragment;
+import com.jvera.chat_app.fragments.UserListFragment;
 import com.jvera.chat_app.models.UserDetails;
 
 
-@SuppressWarnings("WeakerAccess")
 public class Helper {
 
     /** Api url generators*/
@@ -70,38 +64,8 @@ public class Helper {
     }
 
     /**
-    * Generates the message box for screen prompting of messages
-    */
-    public static void addMessageBox(Context context, LinearLayout layout,
-                                        final ScrollView scrollView, String message, int type){
-        TextView textView = new TextView(context);
-        textView.setText(message);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.weight = 1.0f;
-
-        if(type == Constants.MESSAGE_TYPE_SELF) {
-            layoutParams.gravity = Gravity.END;
-            textView.setTextColor(context.getResources().getColor(R.color.colorBackgroundChat));
-            textView.setBackgroundResource(R.drawable.bubble_right);
-        }
-        else{
-            layoutParams.gravity = Gravity.START;
-            textView.setTextColor(context.getResources().getColor(R.color.black));
-            textView.setBackgroundResource(R.drawable.bubble_left);
-        }
-
-        textView.setLayoutParams(layoutParams);
-        layout.addView(textView);
-
-        scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        });
-    }
-
+     * return new user list fragment
+     */
     public static void createFragment(Fragment myFragment,int baseFragment, String addOrReplace, Context context){
 
         FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();

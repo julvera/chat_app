@@ -34,17 +34,9 @@ public class GuestRegisterActivity extends AppCompatActivity implements CredsVal
         Firebase.setAndroidContext(this);
     }
 
-    @OnClick({R.id.login_guest_btn})
+    @OnClick(R.id.login_guest_btn)
     public void setOnClickGuestRegisterEvents(View v) {
-        switch(v.getId()) {
-            case R.id.login_guest_btn:
-                registerClickAction();
-                break;
-
-            default:
-                // Shouldn't get here
-                break;
-        }
+        registerClickAction();
     }
 
     /** Checks basic username validity then calls DB to add */
@@ -66,7 +58,7 @@ public class GuestRegisterActivity extends AppCompatActivity implements CredsVal
     }
 
     /** To do list if credentials are validated*/
-    public void actionOnValidCredentials() {
+    @Override public void actionOnValidCredentials() {
         Helper.toastAnnounce(this, Constants.TXT_REGISTRATION_SUCCESSFUL_WELCOME + guestUsername + "!");
         Helper.activityStarter(this, GuestChatActivity.class);
     }

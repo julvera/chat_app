@@ -1,4 +1,4 @@
-package com.jvera.chat_app.fragment;
+package com.jvera.chat_app.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

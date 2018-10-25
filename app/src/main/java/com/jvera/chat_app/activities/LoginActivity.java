@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.jvera.chat_app.Helper;
 import com.jvera.chat_app.R;
-import com.jvera.chat_app.models.UserDetails;
 import com.jvera.chat_app.database_access.CredsValidationInterface;
 import com.jvera.chat_app.database_access.Database;
 import com.jvera.chat_app.database_access.DbHelper;
+import com.jvera.chat_app.models.UserDetails;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,34 +31,27 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.i(TAG, "onCreate LoginActivity");
         setContentView(R.layout.activity_login);
-        Log.i(TAG, "onCreate");
         ButterKnife.bind(this);
+        Firebase.setAndroidContext(this);
+
         if (!UserDetails.username.equals("")) {
             login.setText(UserDetails.username);
         }
     }
 
-    @OnClick({R.id.register_btn, R.id.login_btn, R.id.guest_btn})
+    @OnClick(R.id.login_btn)
     public void setOnClickLoginEvents(View v) {
-        switch(v.getId()) {
-            case R.id.login_btn:
-                verifyLoginValidity();
-                break;
-
-            case R.id.register_btn:
-                startActivity(UserRegisterActivity.class);
-                break;
-
-            case R.id.guest_btn:
-                startActivity(GuestRegisterActivity.class);
-                break;
-
-            default:
-                // Shouldn't get here
-                break;
-        }
+        verifyLoginValidity();
+    }
+    @OnClick(R.id.guest_btn)
+    public void setOnClickGuestEvents(View v) {
+        startActivity(GuestRegisterActivity.class);
+    }
+    @OnClick(R.id.register_btn)
+    public void setOnClickRegisterEvents(View v) {
+        startActivity(UserRegisterActivity.class);
     }
 
     //slight overkill but .. just because we can
@@ -85,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements CredsValidationI
     }
 
     /** To do list of things if credentials are validated*/
-    public void actionOnValidCredentials() {
+    @Override public void actionOnValidCredentials() {
         startActivity(UserHomePageActivity.class);
     }
 

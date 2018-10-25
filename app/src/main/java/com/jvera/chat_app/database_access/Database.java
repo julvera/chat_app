@@ -1,6 +1,7 @@
 package com.jvera.chat_app.database_access;
 
 import android.content.Context;
+import android.net.Uri;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -12,6 +13,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.jvera.chat_app.Constants;
 import com.jvera.chat_app.Helper;
+import com.jvera.chat_app.ImageHelper;
+import com.jvera.chat_app.MessagesHelper;
 import com.jvera.chat_app.models.GuestDetails;
 import com.jvera.chat_app.models.UserDetails;
 
@@ -26,7 +29,6 @@ public class Database {
      */
     public static void verifyUserCredentials(final Context context, final CallbackWaiterInterface callback,
                                              final String user, final String pass) {
-        Firebase.setAndroidContext(context);
         Response.Listener<String> responseListener = DbHelper.generateResponseListener(
             context, callback, user, pass, Constants.API_BASE_URL, false //not adding, just checking
         );
@@ -43,7 +45,6 @@ public class Database {
      */
     public static void addCredentials(final Context context, final CallbackWaiterInterface callback,
                                       final String base_url, final String user, final String pass){
-        Firebase.setAndroidContext(context);
         Response.Listener<String> responseListener = DbHelper.generateResponseListener(
             context, callback, user, pass, base_url, true //adding credentials. User or guest
         );
@@ -77,15 +78,16 @@ public class Database {
     public static Firebase referenceMessages(final Context context, final String url,
                                              final LinearLayout layout, final ScrollView scrollView,
                                              final boolean isPrivateConversation) {
-        Firebase.setAndroidContext(context);
-        Firebase refGuestsMessages = new Firebase(url);
+        Firebase refGuestsMessages = DbHelper.generateFirebaseReference(url);
+        final MessagesHelper messagesHelper = new MessagesHelper();
 
         refGuestsMessages.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
-                String message = map.get("message").toString();
-                String usernameMessaging = map.get("user").toString();
+                String message = map.get(Constants.MESSAGES_CATEGORY_MESSAGE).toString();
+                String usernameMessaging = map.get(Constants.MESSAGES_CATEGORY_USER).toString();
+                String messageType = map.get(Constants.MESSAGES_CATEGORY_TYPE).toString();
 
                 //TODO : Add timestamp for each message
 
@@ -94,14 +96,15 @@ public class Database {
                     currentUsername = UserDetails.username;     // Take username
                 }
 
-                int type = Constants.MESSAGE_TYPE_SELF;         // Message from us
-                if(!usernameMessaging.equals(currentUsername)){ // Message from someone else
-                    type = Constants.MESSAGE_TYPE_OTHER;
-                    if (!isPrivateConversation) {               // Message on guests chat
+                int messageFrom = Constants.MESSAGE_FROM_SELF;          // Message from us
+                if(!usernameMessaging.equals(currentUsername)){         // Message from someone else
+                    messageFrom = Constants.MESSAGE_FROM_OTHER;
+                    if (!isPrivateConversation) {                       // Message on guests chat
                         message = usernameMessaging + ": " + message;
                     }
                 }
-                Helper.addMessageBox(context, layout, scrollView, message, type);
+
+                messagesHelper.addMessageBox(context, layout, scrollView, message, messageFrom, messageType);
             }
 
             @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
@@ -112,25 +115,48 @@ public class Database {
         return refGuestsMessages;
     }
 
-    public static void sendMessages(final EditText messageArea, final Firebase ref1,
-                                    final Firebase ref2) {
+    public static void sendMessage(final EditText messageArea, final Firebase ref1,
+                                   final Firebase ref2) {
         String messageText = messageArea.getText().toString();
-        boolean isGuestChat = false;
-        if (ref2 == null) {
-            isGuestChat = true;
-        }
+        pushItemToDatabase(messageText, ref1, ref2, null);
+        messageArea.setText("");
+    }
 
-        if(!messageText.equals("")){
+    public static boolean sendImage(Context c, Uri photoPath){
+        Firebase dbRef1 = DbHelper.generateFirebaseReference(Helper.api_url_friend_messages_user());
+        Firebase dbRef2 = DbHelper.generateFirebaseReference(Helper.api_url_user_messages_friend());
+
+        try{
+            String encodedImage = ImageHelper.getEncodedImage(c, photoPath);
+            pushItemToDatabase("Take this pic!", dbRef1, dbRef2, encodedImage);
+        }catch (Exception e){return false;}
+
+        return true;
+    }
+
+    private static void pushItemToDatabase(String message, Firebase ref1,
+                                           Firebase ref2, String encodedImage) {
+        boolean isGuestChat = ref2 == null; //ref2 null => Guest
+        boolean isImage = encodedImage != null; //encodedImage null => not an image
+
+        if(!message.equals("")){
+            String type = Constants.MESSAGE_TYPE_TEXT;
+            if (isImage) {
+                type = Constants.MESSAGE_TYPE_IMAGE;
+                message = encodedImage;
+            }
+
             Map<String, String> map = new HashMap<>();
-            map.put("message", messageText);
+            map.put(Constants.MESSAGES_CATEGORY_MESSAGE, message);
+            map.put(Constants.MESSAGES_CATEGORY_TYPE, type);
+
             if(isGuestChat) {
-                map.put("user", GuestDetails.username);
+                map.put(Constants.MESSAGES_CATEGORY_USER, GuestDetails.username);
             } else {
-                map.put("user", UserDetails.username);
+                map.put(Constants.MESSAGES_CATEGORY_USER, UserDetails.username);
                 ref2.push().setValue(map);
             }
             ref1.push().setValue(map);
-            messageArea.setText("");
         }
     }
 }

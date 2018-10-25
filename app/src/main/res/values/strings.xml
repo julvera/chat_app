@@ -10,8 +10,10 @@
     <string name="or">-- OR --</string>
     <string name="log_in">Log In!</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="write_message">"Write a message.."</string>
 
     <string name="guest">Sign In as Guest</string>
+    <string name="text_view">TextView</string>
     <string name="text_guest">Let us know your Pseudo :</string>
     <string name="prompt_pseudo_guest">Pseudo</string>
     <string name="login_as_guest">Login as Guest</string>
@@ -32,6 +34,13 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="change_pseudo">Change Your Pseudo</string>
+    <string name="send_button_description">Send message</string>
+    <string name="send_button_text">"Send!"</string>
+    <string name="upload_button_description">Upload a picture</string>
+    <string name="camera_button_description">Take a picture</string>
+    <string name="gallery_button_description">Browse gallery</string>
+    <string name="Image_description">Your Image goes here</string>
     <string name="change_password">Change Your Password</string>
     <string name="update_password">Update Your Password</string>
     <string name="profil_edit_hint">Enter Here New Password</string>

@@ -34,13 +34,17 @@ public class GuestChatActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         refGuestsMessages = Database.referenceMessages(
-            this, Constants.API_URL_GUESTS_MESSAGES, layout, scrollView, false //guest chat is not private
+            this.getApplicationContext(),
+            Constants.API_URL_GUESTS_MESSAGES,
+            layout,
+            scrollView,
+            false //guest chat is not private
         );
     }
 
     /** Send messages! null given as ref2 because guest chat does only prompt messages in one place*/
     @OnClick(R.id.sendButton)
     public void sendMessage(View v) {
-        Database.sendMessages(messageArea, refGuestsMessages, null);
+        Database.sendMessage(messageArea, refGuestsMessages, null); //no second reference
     }
 }
