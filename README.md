@@ -4,8 +4,8 @@
 - Sign in
 - Sign up
 - Public Group Chat
-- Profile Editing
 - Private Chat for logged users
+- Profile Editing
 - Image sharing for logged users (from Gallery and Camera)
 -
 
@@ -24,5 +24,6 @@
 - Make the image uploaded clickable so the message receiver can see it bigger and save it
 - Make HomePage loading quicker. Might be slow because of a dirty DB request.
 - Make title in messages be the username we are chatting with and not just "ChatApp"
--
+- Find things to do under the "Tools" functionality in side menu
+- 
 
