@@ -66,11 +66,9 @@ public class UserHomePageActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.nav_home:
                 Helper.createFragment(Helper.createUserListFragment(), base_fragment, "replace",this);
-                Helper.toastAnnounce(this, "Home selected");
                 break;
             case R.id.nav_profil:
                 Helper.createFragment(Helper.createProfileFragment(), base_fragment, "replace",this);
-                Helper.toastAnnounce(this, "Profile selected");
                 break;
             case R.id.nav_settings:
                 Helper.toastAnnounce(this, "Options selected");

@@ -30,7 +30,6 @@ public class GuestChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_chat);
-        Log.i(TAG, "onCreate GuestChatActivity");
         ButterKnife.bind(this);
 
         refGuestsMessages = Database.referenceMessages(

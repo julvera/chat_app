@@ -3,7 +3,6 @@ package com.jvera.chat_app.activities;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -30,7 +29,6 @@ public class UserRegisterActivity extends AppCompatActivity implements CredsVali
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
-        Log.i(TAG, "onCreate UserRegisterActivity");
         ButterKnife.bind(this);
         Firebase.setAndroidContext(this);
     }
