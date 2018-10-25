@@ -1,0 +1,39 @@
+On all Phones (1,2,3): Start Camera - click all the shit to finally end up taking picture.
+
+start video
+ - Phone#1 start app
+ - Phone#2 start app
+ - Phone#3 start app
+ - Phone#1 start GuestChat
+ 	- Try register guest with existing or too short username
+	- Get in the chat with working username
+	- send messages
+	- Phone#2 go to GuestChat, see the messages created by Phone#1, send message back
+	  (large one so we see a big bubble)
+ - Phone#1 back to login page
+ - Phone#1 Sign up
+ 	- Try sign up with existing username (valentin) && too short username (val)
+ 	- Try sign up with working username but tooshort password
+	- finally create a fucking account
+ - *app sends Phone#1 back to Login page with username field filled*
+ - Phone#1 Log in
+ - Phone#2 Log in on existing user
+ - Phone#2 starts communication with phone#1, sends random messages
+ 	- Phone#1 goes in conversation, sees incoming message, responds
+	- Phone#2 sees response, quits app, starts camera, takes picture (not with the
+	  default angle so we see the difference with the one we will take within the app)
+	- Phone#2 goes back to app, clicks upload file
+		- click upload from Gallery, Allow access, click again
+		- choose the image by clicking, send.
+	- Phone#2 sees image he sent, upload image again
+		- click take picture, allow access, click again
+		- take picture, validate, send
+	- Phone#1 responds some random text
+	- Phone#1 sees images received, clicks upload file
+		- click take picture, allow access, click again
+		- take picture, validate, send
+ - Phone#3 communicates with Phone#2, sends text
+ - Phone#2 sees Phone#3 message
+ 
+ *** Add all the Profile/Side Menu showing ***
+
