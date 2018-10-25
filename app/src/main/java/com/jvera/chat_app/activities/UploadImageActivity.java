@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -29,7 +28,6 @@ import butterknife.OnClick;
 public class UploadImageActivity  extends AppCompatActivity {
 
     @BindView(R.id.imageView) ImageView imageView;
-    private static final String TAG = "Debug" ;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int TAKE_PICTURE_REQUEST = 2;
     private boolean imageSelected = false;

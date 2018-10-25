@@ -2,7 +2,6 @@ package com.jvera.chat_app.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -23,7 +22,6 @@ public class UserChatActivity extends AppCompatActivity {
     @BindView(R.id.layout1) LinearLayout layout;
     @BindView(R.id.messageArea) EditText messageArea;
     @BindView(R.id.scrollView) ScrollView scrollView;
-    private static final String TAG = "Debug" ;
 
     Firebase refUserFriend, refFriendUser;
 

@@ -25,5 +25,5 @@
 - Make HomePage loading quicker. Might be slow because of a dirty DB request.
 - Make title in messages be the username we are chatting with and not just "ChatApp"
 - Find things to do under the "Tools" functionality in side menu
-- 
-
+- Add delete account/user functionality, should delete all related conversations
+- Enable guests on GuestChat to relogin with same username (store token in local storage)

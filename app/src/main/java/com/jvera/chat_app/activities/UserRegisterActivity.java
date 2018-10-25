@@ -21,7 +21,6 @@ import butterknife.OnClick;
 
 public class UserRegisterActivity extends AppCompatActivity implements CredsValidationInterface {
 
-    final static private String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.login) EditText login;
     @BindView(R.id.password) TextInputLayout password;
 

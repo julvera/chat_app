@@ -19,8 +19,7 @@ import butterknife.OnClick;
 
 public class ProfilFragment extends Fragment {
 
-    @BindView(R.id.password_profile) TextView usernameProfil;
-
+    @BindView(R.id.password_profile) TextView usernameProfile;
     public int base_fragment = R.id.base_fragment;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -28,7 +27,7 @@ public class ProfilFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profil, container, false);
         ButterKnife.bind(this,view);
-        usernameProfil.setText(UserDetails.username);
+        usernameProfile.setText(UserDetails.username);
         return view;
     }
 
@@ -37,7 +36,12 @@ public class ProfilFragment extends Fragment {
         switch(v.getId()) {
             case R.id.password_change_btn:
                 // When Pseudo change btn is clicked , pseudo changed proceed
-                Helper.createFragment(Helper.createProfileSettingsFragment(), base_fragment, "replace",getContext());
+                Helper.createFragment(
+                    Helper.createProfileSettingsFragment(),
+                    base_fragment,
+                    "replace",
+                    getContext()
+                );
                 break;
 
             default:
@@ -45,6 +49,4 @@ public class ProfilFragment extends Fragment {
                 break;
         }
     }
-
-
-    }
+}

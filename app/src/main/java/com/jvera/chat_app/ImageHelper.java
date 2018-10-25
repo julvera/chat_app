@@ -50,9 +50,9 @@ public class ImageHelper {
         File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         return File.createTempFile(
-                imageFilename,
-                ".jpg",
-                storageDir
+            imageFilename,
+            ".jpg",
+            storageDir
         );
     }
 
@@ -66,20 +66,20 @@ public class ImageHelper {
             if (ActivityCompat.shouldShowRequestPermissionRationale(act, requiredPermission)) {
                 // Explain to the user why we need to read the contacts
                 new AlertDialog.Builder(context)
-                        .setTitle("title")
-                        .setMessage("text")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(
-                                        act,
-                                        new String[]{requiredPermission},
-                                        1
-                                );
-                            }
-                        })
-                        .create()
-                        .show();
+                    .setTitle("title")
+                    .setMessage("text")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialogInterface, int i) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(
+                                    act,
+                                    new String[]{requiredPermission},
+                                    1
+                            );
+                        }
+                    })
+                    .create()
+                    .show();
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(

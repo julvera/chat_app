@@ -2,7 +2,6 @@ package com.jvera.chat_app.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,7 +20,6 @@ import butterknife.OnClick;
 
 public class GuestRegisterActivity extends AppCompatActivity implements CredsValidationInterface {
 
-    private static final String TAG = "Debug" ;
     @BindView(R.id.pseudo_guest) EditText pseudoGuest;
     String guestUsername;
 

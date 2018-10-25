@@ -1,6 +1,7 @@
 package com.jvera.chat_app.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,29 +22,28 @@ import butterknife.OnClick;
 
 public class ProfilSettingsFragment extends Fragment implements CredsValidationInterface {
 
-    @BindView(com.jvera.chat_app.R.id.password_update_profil)
-    EditText passwordUpdateProfil;
+    @BindView(R.id.password_update_profil) EditText passwordUpdateProfile;
     public int base_fragment = R.id.base_fragment;
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(com.jvera.chat_app.R.layout.fragment_profil_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_profil_settings, container, false);
         ButterKnife.bind(this,view);
         return view;
     }
 
-    @OnClick({com.jvera.chat_app.R.id.pseudo_update_btn})
+    @OnClick(R.id.pseudo_update_btn)
     public void setOnClickLoginEvents(View v) {
         switch(v.getId()) {
             case R.id.pseudo_update_btn:
                 // When Pseudo change btn is clicked , pseudo changed proceed
-                String pass = passwordUpdateProfil.getText().toString();
+                String pass = passwordUpdateProfile.getText().toString();
                 String invalidPassReason = Helper.checkPasswordValidity(pass);
 
                 if (!"".equals(invalidPassReason)) {
-                    passwordUpdateProfil.setError(invalidPassReason);
+                    passwordUpdateProfile.setError(invalidPassReason);
                 } else {
                     Database.updateProfil(
                             getContext(),
@@ -52,7 +52,12 @@ public class ProfilSettingsFragment extends Fragment implements CredsValidationI
                             pass
                     );
                     Helper.toastAnnounce(getContext(),"Password Changed");
-                    Helper.createFragment(Helper.createUserListFragment(), base_fragment, "replace",getContext());
+                    Helper.createFragment(
+                        Helper.createUserListFragment(),
+                        base_fragment,
+                        "replace",
+                        getContext()
+                    );
                 }
                 break;
 
@@ -63,7 +68,5 @@ public class ProfilSettingsFragment extends Fragment implements CredsValidationI
     }
 
     @Override
-    public void actionOnValidCredentials() {
-
-    }
+    public void actionOnValidCredentials() {}
 }

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ import butterknife.ButterKnife;
 
 
 public class UserListFragment extends Fragment {
-    private static final String TAG = "Debug" ;
     @BindView(R.id.usersList) ListView usersList;
     @BindView(R.id.noUsersText) TextView noUsersText;
 

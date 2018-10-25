@@ -3,7 +3,7 @@ package com.jvera.chat_app;
 
 public class Constants {
     /** */
-    public static final int PERMISSIONS_REQUEST_LOCATION = 666;
+    static final int PERMISSIONS_REQUEST_LOCATION = 666;
     /**
     * Text strings for toasts pop-ups mainly
     */
